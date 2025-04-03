@@ -7,13 +7,13 @@ ___
 ### 기능적 요구사항
 1. 유저 대기열 토큰 기능
 - 서비스를 이용할 토큰을 발급받는 API를 구현합니다.
-- 토큰은 유저의 UUID와 해당 유저의 대기열을 관리할 수 있는 정보 (대기 순서 or 잔여시간 등)를 포함합니다.
+- 토큰은 유저의 UUID와 해당 유저의 대기열을 관리할 수 있는 정보 (예약 날짜, 좌석번호, 대기 순서 or 잔여시간 등)를 포함합니다.
 - 이후 모든 API는 위 토큰을 이용해 대기열 검증을 통과 합니다.
 - [기본적 폴링 방식 가정]
     - 대기열 토큰 발급 API
     - 대기번호 조회 API
 
-2. 예약 가능 날짜 / 좌석 API
+2. 예약 가능 날짜 / 좌석 조회 API
 - 예약가능한 날짜와 해당 날짜의 좌석을 조회하는 API 를 **각각** 구현합니다.
 - 예약 가능한 날짜 목록을 조회합니다.
 - 날짜 정보를 입력받아 예약가능한 좌석정보를 조회합니다.
@@ -35,8 +35,10 @@ ___
 - 결제가 완료되면 해당 좌석의 소유권을 유저에게 배정하고 대기열 토큰을 만료시킵니다.
 
 ___
-- [📝 마일스톤](https://github.com/users/kimyezzang97/projects/2/views/1)
-
+## Docs
+- [📝 마일스톤](https://github.com/users/kimyezzang97/projects/2/views/1?groupedBy%5BcolumnId%5D=Milestone)
+- [📌 ERD](https://github.com/kimyezzang97/hhp-concert/blob/STEP03/docs/erd/ERD.md)
+- [▶ 시퀀스](https://github.com/kimyezzang97/hhp-concert/tree/STEP03/docs/sequence)
 
 
 ## Getting Started
