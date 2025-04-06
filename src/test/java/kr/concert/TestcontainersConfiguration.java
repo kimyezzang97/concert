@@ -1,4 +1,4 @@
-package kr.hhplus.be.server;
+package kr.concert;
 
 import jakarta.annotation.PreDestroy;
 import org.springframework.boot.test.context.TestConfiguration;

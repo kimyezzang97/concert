@@ -1,4 +1,4 @@
-package kr.hhplus.be.server;
+package kr.concert;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
