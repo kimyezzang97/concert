@@ -9,6 +9,7 @@ erDiagram
         INT member_id FK "FK, 사용자 ID"
         VARCHAR queue_status "대기열 상태[ENUM] (WAIT/PLAY/EXPIRE/CANCEL)"
         DATETIME created_at "대기열 등록 시간"
+        DATETIME updated_at "대기열 수정 시각"
         DATETIME expired_at "대기열 만료 시간"
     }
     MEMBER{
@@ -24,6 +25,7 @@ erDiagram
         INT member_id FK "FK, 사용자 ID"
         INT payment_price "결제 금액"
         DATETIME created_at "결제 생성 시각"
+        DATETIME updated_at "결제 수정 시각"
     }
     RESERVATION {
         INT reservation_id PK "PK, 예약 ID"
@@ -31,6 +33,7 @@ erDiagram
         INT seat_id FK "FK, 좌석 ID"
         VARCHAR reservation_status "예약 상태[ENUM] (EMPTY/TEMP/RESERVED)"
         DATETIME created_at "예약 생성 시각"
+        DATETIME updated_at "예약 수정 시각"
         DATETIME expired_at "예약 만료 시각"
     }
     SEAT {
@@ -62,5 +65,4 @@ erDiagram
     MEMBER ||--o{ PAYMENT : "1:N"
     MEMBER ||--o{ RESERVATION : "1:N"
     MEMBER  ||--o{ QUEUE : "1:N"
-    SCHEDULE  ||--o{ QUEUE : "1:N"
 ```
