@@ -32,4 +32,12 @@ public class ReservationController {
     public ApiResponse<List<ReservationResponse.GetScheduleOfConcert>> getSchedulesOfConcert(@PathVariable Long concertId) {
         return new ApiResponse<>(true, 200, "콘서트 날짜 조회 성공", reservationFacade.getSchedulesOfConcert(concertId));
     }
+
+    /**
+     * 좌석 of 날짜 of Concert 목록 조회
+     */
+    @GetMapping("/schedules/{scheduleId}/seats")
+    public ApiResponse<List<ReservationResponse.GetSeatsOfSchedule>> getSeatsOfSchedule(@PathVariable Long scheduleId) {
+        return new ApiResponse<>(true, 200, "콘서트 좌석 조회 성공", reservationFacade.getSeatsOfSchedule(scheduleId));
+    }
 }

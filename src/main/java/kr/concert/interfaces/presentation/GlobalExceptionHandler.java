@@ -33,4 +33,9 @@ public class GlobalExceptionHandler {
         return new ApiResponse<>(false, 204, e.getMessage(), null);
     }
 
+    @ExceptionHandler(ReservationException.SeatNotExistException.class)
+    public ApiResponse<?> SeatNotExistException(ReservationException.SeatNotExistException e) {
+        return new ApiResponse<>(false, 204, e.getMessage(), null);
+    }
+
 }
