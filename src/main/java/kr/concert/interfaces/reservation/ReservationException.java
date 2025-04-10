@@ -7,4 +7,10 @@ public class ReservationException {
             super("Concert Not Exists");
         }
     }
+
+    public static class ScheduleNotExistException extends RuntimeException {
+        public ScheduleNotExistException() {
+            super("Schedule Not Exists");
+        }
+    }
 }

@@ -28,4 +28,9 @@ public class GlobalExceptionHandler {
         return new ApiResponse<>(false, 204, e.getMessage(), null);
     }
 
+    @ExceptionHandler(ReservationException.ScheduleNotExistException.class)
+    public ApiResponse<?> ScheduleNotExistException(ReservationException.ScheduleNotExistException e) {
+        return new ApiResponse<>(false, 204, e.getMessage(), null);
+    }
+
 }
