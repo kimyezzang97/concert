@@ -1,4 +1,4 @@
-package kr.concert.config.jpa;
+package kr.concert.infra.config.jpa;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
