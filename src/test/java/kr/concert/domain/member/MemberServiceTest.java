@@ -58,31 +58,31 @@ class MemberServiceTest {
     @DisplayName("존재하지 않는 회원은 포인트를 충전할 수 없다.")
     void ifMemberNotExistCanNotChargePoint() {
         // given
-//        Long memberId = 1L;
-//        Long amount = 1000L;
-//        given(memberRepository.getMember(memberId)).willReturn(Optional.empty()) ;
-//
-//        // when & then
-//        assertThatThrownBy(() -> memberService.chargePoint(memberId, amount))
-//                .isInstanceOf(MemberException.MemberNotFoundException.class)
-//                .hasMessage("Member Not Found");
+        Long memberId = 1L;
+        Long amount = 1000L;
+        given(memberRepository.findById(memberId)).willReturn(Optional.empty()) ;
+
+        // when & then
+        assertThatThrownBy(() -> memberService.chargePoint(memberId, amount))
+                .isInstanceOf(MemberException.MemberNotFoundException.class)
+                .hasMessage("Member Not Found");
     }
 
     @Test
     @DisplayName("존재하는 회원은 포인트를 충전할 수 있다.")
     void ifMemberExistCanChargePoint() {
         // given
-//        given(memberRepository.getMember(1L)).willReturn(
-//                Optional.of(new Member(1L, "김예찬", 1000L, LocalDateTime.now(), LocalDateTime.now()))
-//        ) ;
-//
-//        // when
-//        Optional<Member> member = memberRepository.getMember(1L);
-//        Member result = member.get();
-//        result.chargePoint(1000L, LocalDateTime.now());
-//
-//        // then
-//        assertThat(result.getPoint()).isEqualTo(2000L);
+        given(memberRepository.findById(1L)).willReturn(
+                Optional.of(new Member(1L, "김예찬", 1000L))
+        ) ;
+
+        // when
+        Optional<Member> member = memberRepository.findById(1L);
+        Member result = member.get();
+        result.chargePoint(1000L);
+
+        // then
+        assertThat(result.getPoint()).isEqualTo(2000L);
     }
 
 }
