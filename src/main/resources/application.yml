@@ -16,7 +16,7 @@ spring:
     generate-ddl: false
     show-sql: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate.timezone.default_storage: NORMALIZE_UTC
       hibernate.jdbc.time_zone: UTC
@@ -29,3 +29,16 @@ spring:
     url: jdbc:mysql://localhost:3306/hhplus?characterEncoding=UTF-8&serverTimezone=UTC
     username: application
     password: application
+  sql:
+    init:
+      mode: never # always or never
+      schema-locations: classpath:/db/schema.sql
+      data-locations: classpath:/db/data.sql
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html # 리디렉션만 됨 (실제는 /swagger-ui/index.html)
+    disable-swagger-default-url: true
+    display-request-duration: true
