@@ -18,7 +18,7 @@ public class MemberException {
 
     public static class CanNotMinusChargeException extends RuntimeException {
         public CanNotMinusChargeException() {
-            super("Are you kidding me?");
+            super("You can't charge 0 or less!");
         }
     }
 

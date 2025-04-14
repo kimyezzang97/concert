@@ -4,15 +4,12 @@ import jakarta.persistence.*;
 import kr.concert.domain.BaseEntity;
 import kr.concert.interfaces.member.MemberException;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 
 @Getter
 @Entity(name="member")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
 public class Member extends BaseEntity {
 
     private static final Long MAX_POINT = 1_000_000L;
@@ -31,7 +28,7 @@ public class Member extends BaseEntity {
     private Long point;
 
     // 포인트를 충전한다.
-    public void chargePoint(Long amount, LocalDateTime pointUpdatedAt) {
+    public void chargePoint(Long amount) {
         if (amount < 0) throw new MemberException.CanNotMinusChargeException();
 
         long totalPoint = point + amount;
