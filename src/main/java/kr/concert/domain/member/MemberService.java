@@ -19,7 +19,7 @@ public class MemberService {
 
     // 회원의 포인트 잔액을 조회한다.
     public MemberResponse.GetPoint getPoint(Long memberId) {
-        Optional<Member> member = memberRepository.getMember(memberId);
+        Optional<Member> member = memberRepository.findById(memberId);
         if(member.isEmpty()) throw new MemberException.MemberNotFoundException();
 
         Member result = member.get();
@@ -28,7 +28,7 @@ public class MemberService {
 
     // 회원의 포인트를 충전한다.
     public MemberResponse.ChargePoint chargePoint(Long memberId, Long chargePoint) {
-        Optional<Member> member = memberRepository.getMember(memberId);
+        Optional<Member> member = memberRepository.findById(memberId);
         if(member.isEmpty()) throw new MemberException.MemberNotFoundException();
 
         Member resultMember = member.get();
