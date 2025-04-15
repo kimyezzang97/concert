@@ -16,4 +16,7 @@ public interface SwaggerReservationApi {
 
     @Operation(summary = "스케줄 조회", description = "콘서트의 스케줄을 조회합니다.")
     ApiResponse<List<ReservationResponse.GetScheduleOfConcert>> getSchedulesOfConcert(@PathVariable Long concertId);
+
+    @Operation(summary = "좌석 조회", description = "콘서트의 좌석을 조회합니다.")
+    ApiResponse<List<ReservationResponse.GetSeatsOfSchedule>> getSeatsOfSchedule(@PathVariable Long scheduleId);
 }

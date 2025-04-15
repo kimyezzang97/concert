@@ -15,7 +15,7 @@ public class SeatService {
     }
 
     public List<Seat> getSeatsOfSchedule(Long scheduleId) {
-        List<Seat> seats = seatRepository.getSeatsOfSchedule(scheduleId);
+        List<Seat> seats = seatRepository.findAllBySchedule_ScheduleId(scheduleId);
 
         if (seats.isEmpty()) throw new ReservationException.SeatNotExistException();
         return seats;

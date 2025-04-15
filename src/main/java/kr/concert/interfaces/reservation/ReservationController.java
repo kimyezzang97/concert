@@ -27,7 +27,7 @@ public class ReservationController implements SwaggerReservationApi {
     }
 
     /**
-     * 날짜 of Concert 목록 조회
+     * 스케줄 of Concert 목록 조회
      */
     @GetMapping("/concerts/{concertId}/schedules")
     public ApiResponse<List<ReservationResponse.GetScheduleOfConcert>> getSchedulesOfConcert(@PathVariable Long concertId) {
@@ -35,7 +35,7 @@ public class ReservationController implements SwaggerReservationApi {
     }
 
     /**
-     * 좌석 of 날짜 of Concert 목록 조회
+     * 좌석 of 스케줄 of Concert 목록 조회
      */
     @GetMapping("/schedules/{scheduleId}/seats")
     public ApiResponse<List<ReservationResponse.GetSeatsOfSchedule>> getSeatsOfSchedule(@PathVariable Long scheduleId) {

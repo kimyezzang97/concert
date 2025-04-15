@@ -36,15 +36,29 @@ public class ReservationFacade {
     public List<ReservationResponse.GetScheduleOfConcert> getSchedulesOfConcert(Long concertId) {
 
         return scheduleService.getSchedulesOfConcert(concertId).stream()
-                .map(c -> new ReservationResponse.GetScheduleOfConcert(c.getScheduleId(), c.getConcert().getConcertName(), c.getScheduleAt(), c.getCreatedAt()))
+                .map(c -> new ReservationResponse.GetScheduleOfConcert(
+                        c.getScheduleId(),
+                        c.getConcert().getConcertName(),
+                        c.getScheduleAt(),
+                        c.getCreatedAt())
+                )
                 .collect(Collectors.toList());
     }
 
     // 좌석 of 날짜 목록 조회
+    @Transactional(readOnly = true)
     public List<ReservationResponse.GetSeatsOfSchedule> getSeatsOfSchedule(Long scheduleId) {
 
         return seatService.getSeatsOfSchedule(scheduleId).stream()
-                .map(c -> new ReservationResponse.GetSeatsOfSchedule(c.getSeatId(), c.getScheduleId(), c.getSeatNumber(), c.getSeatPrice(), c.isSeatStatus(), c.getCreatedAt()))
+                .map(c -> new ReservationResponse.GetSeatsOfSchedule(
+                        c.getSchedule().getConcert().getConcertName(),
+                        c.getSeatId(),
+                        c.getSchedule().getScheduleId(),
+                        c.getSeatNumber(),
+                        c.getSeatPrice(),
+                        c.isSeatStatus(),
+                        c.getCreatedAt())
+                )
                 .collect(Collectors.toList());
     }
 
