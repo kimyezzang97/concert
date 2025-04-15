@@ -2,6 +2,7 @@ package kr.concert.interfaces.reservation;
 
 import kr.concert.application.reservation.ReservationFacade;
 import kr.concert.domain.reservation.ReservationService;
+import kr.concert.infra.config.swagger.api.SwaggerReservationApi;
 import kr.concert.interfaces.presentation.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/reservations")
-public class ReservationController {
+public class ReservationController implements SwaggerReservationApi {
 
     private final ReservationFacade reservationFacade;
 
@@ -39,5 +40,13 @@ public class ReservationController {
     @GetMapping("/schedules/{scheduleId}/seats")
     public ApiResponse<List<ReservationResponse.GetSeatsOfSchedule>> getSeatsOfSchedule(@PathVariable Long scheduleId) {
         return new ApiResponse<>(true, 200, "콘서트 좌석 조회 성공", reservationFacade.getSeatsOfSchedule(scheduleId));
+    }
+
+    /**
+     * 좌석 예약
+     */
+    @PostMapping("/seats/{seatId}")
+    public void reserve(@PathVariable Long seatId, @RequestBody ReservationRequest.Reservation reservation) {
+
     }
 }

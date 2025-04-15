@@ -1,0 +1,15 @@
+package kr.concert.infra.config.swagger.api;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import kr.concert.interfaces.presentation.ApiResponse;
+import kr.concert.interfaces.reservation.ReservationResponse;
+
+import java.util.List;
+
+@Tag(name = "Reservation", description = "콘서트 예약 관련 API")
+public interface SwaggerReservationApi {
+
+    @Operation(summary = "콘서트 조회", description = "콘서트 목록을 조회합니다.")
+    ApiResponse<List<ReservationResponse.GetConcerts>> getConcerts();
+}
