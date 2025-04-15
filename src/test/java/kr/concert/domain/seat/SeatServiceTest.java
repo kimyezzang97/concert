@@ -1,5 +1,7 @@
 package kr.concert.domain.seat;
 
+import kr.concert.domain.concert.Concert;
+import kr.concert.domain.schedule.Schedule;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +33,7 @@ class SeatServiceTest {
     void ifNoSeatsForScheduleCanNotGetList() {
         // given
         Long scheduleId = 1L;
-        given(seatRepository.getSeatsOfSchedule(scheduleId)).willReturn(Collections.emptyList());
+        given(seatRepository.findAllBySchedule_ScheduleId(scheduleId)).willReturn(Collections.emptyList());
 
         // when & then
         assertThatThrownBy(() -> seatService.getSeatsOfSchedule(scheduleId))
@@ -45,9 +47,9 @@ class SeatServiceTest {
         // given
         Long scheduleId = 1L;
         List<Seat> seats = List.of(
-                new Seat(1L, scheduleId, 1L, 50000L, false, LocalDateTime.now(), LocalDateTime.now())
+                new Seat(1L, new Schedule(1L, new Concert(1L, "콜드플레이 콘서트"), LocalDateTime.now()), 1L, 50000L, false)
         );
-        given(seatRepository.getSeatsOfSchedule(scheduleId)).willReturn(seats);
+        given(seatRepository.findAllBySchedule_ScheduleId(scheduleId)).willReturn(seats);
 
         // when
         List<Seat> result = seatService.getSeatsOfSchedule(scheduleId);
@@ -55,7 +57,7 @@ class SeatServiceTest {
         // then
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getSeatId()).isEqualTo(1L);
-        assertThat(result.get(0).getScheduleId()).isEqualTo(scheduleId);
+        assertThat(result.get(0).getSchedule().getScheduleId()).isEqualTo(scheduleId);
         assertThat(result.get(0).isSeatStatus()).isEqualTo(false);
     }
 }
