@@ -1,7 +1,5 @@
 package kr.concert.interfaces.member;
 
-import lombok.Getter;
-
 public class MemberException {
 
     public static class MemberNotFoundException extends RuntimeException {

@@ -7,9 +7,9 @@ import lombok.*;
 
 
 @Getter
-@Entity(name="member")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity(name="member")
 public class Member extends BaseEntity {
 
     private static final Long MAX_POINT = 1_000_000L;
