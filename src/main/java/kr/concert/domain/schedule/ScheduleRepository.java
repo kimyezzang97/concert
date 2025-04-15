@@ -5,5 +5,6 @@ import kr.concert.domain.concert.Concert;
 import java.util.List;
 
 public interface ScheduleRepository {
-    List<Schedule> getSchedulesOfConcert(Long concertId);
+
+    List<Schedule> findAllByConcert_ConcertId(Long concertId);
 }

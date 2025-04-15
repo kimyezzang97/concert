@@ -31,7 +31,7 @@ public class ReservationController implements SwaggerReservationApi {
      */
     @GetMapping("/concerts/{concertId}/schedules")
     public ApiResponse<List<ReservationResponse.GetScheduleOfConcert>> getSchedulesOfConcert(@PathVariable Long concertId) {
-        return new ApiResponse<>(true, 200, "콘서트 날짜 조회 성공", reservationFacade.getSchedulesOfConcert(concertId));
+        return new ApiResponse<>(true, 200, "콘서트 스케줄 조회 성공", reservationFacade.getSchedulesOfConcert(concertId));
     }
 
     /**

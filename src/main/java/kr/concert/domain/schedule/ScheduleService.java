@@ -3,6 +3,7 @@ package kr.concert.domain.schedule;
 import kr.concert.domain.concert.Concert;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,8 +16,9 @@ public class ScheduleService {
         this.scheduleRepository = scheduleRepository;
     }
 
+
     public List<Schedule> getSchedulesOfConcert(Long concertId) {
-        List<Schedule> schedules = scheduleRepository.getSchedulesOfConcert(concertId);
+        List<Schedule> schedules = scheduleRepository.findAllByConcert_ConcertId(concertId);
 
         if (schedules.isEmpty()) throw new ReservationException.ScheduleNotExistException();
         return schedules;

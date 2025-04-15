@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.concert.interfaces.presentation.ApiResponse;
 import kr.concert.interfaces.reservation.ReservationResponse;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -12,4 +13,7 @@ public interface SwaggerReservationApi {
 
     @Operation(summary = "콘서트 조회", description = "콘서트 목록을 조회합니다.")
     ApiResponse<List<ReservationResponse.GetConcerts>> getConcerts();
+
+    @Operation(summary = "스케줄 조회", description = "콘서트의 스케줄을 조회합니다.")
+    ApiResponse<List<ReservationResponse.GetScheduleOfConcert>> getSchedulesOfConcert(@PathVariable Long concertId);
 }
