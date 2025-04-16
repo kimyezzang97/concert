@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity(name="queue")
 public class Queue extends BaseEntity {
 

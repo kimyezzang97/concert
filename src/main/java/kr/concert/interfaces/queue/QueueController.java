@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class QueueController implements SwaggerQueueApi {
 
     private final QueueFacade queueFacade;
+    private final QueueService queueService;
 
-    public QueueController(QueueFacade queueFacade) {
+    public QueueController(QueueFacade queueFacade, QueueService queueService) {
         this.queueFacade = queueFacade;
+        this.queueService = queueService;
     }
 
     /**
@@ -29,6 +31,11 @@ public class QueueController implements SwaggerQueueApi {
     }
 
     /**
-     *
+     * 대기열 정보 조회
      */
+    @PostMapping("/status")
+    public ApiResponse<QueueResponse.QueueStatus> getQueue(@RequestParam String token) {
+
+        return new ApiResponse<>(true, 200, "대기열 정보 조회 성공", queueService.getQueue(token));
+    }
 }
