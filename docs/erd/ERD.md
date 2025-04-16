@@ -7,6 +7,7 @@ erDiagram
     QUEUE {
         BIGINT queue_id PK "Primary Key, 대기열 ID"
         BIGINT member_id FK "FK, 사용자 ID"
+        VARCHAR token "회원 토큰"
         VARCHAR queue_status "대기열 상태[ENUM] (WAIT/PLAY/EXPIRE/CANCEL)"
         DATETIME created_at "대기열 등록 시간"
         DATETIME updated_at "대기열 수정 시각"
