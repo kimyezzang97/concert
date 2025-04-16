@@ -38,6 +38,11 @@ public class MemberService {
         return new MemberResponse.ChargePoint(resultMember.getMemberId(), resultMember.getMemberName(), resultMember.getPoint());
     }
 
+    // memberId로 회원을 조회한다.
+    public Member getMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(MemberException.MemberNotFoundException::new);
+    }
 
 
 }
