@@ -4,6 +4,7 @@ import kr.concert.domain.concert.Concert;
 import kr.concert.domain.member.Member;
 import kr.concert.domain.seat.Seat;
 import kr.concert.interfaces.presentation.ApiResponse;
+import kr.concert.interfaces.reservation.ReservationException;
 import kr.concert.interfaces.reservation.ReservationRequest;
 import kr.concert.interfaces.reservation.ReservationResponse;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,10 @@ public class ReservationService {
         Reservation reservation = Reservation.create(member, seat, expiredAt);
 
         return reservationRepository.save(reservation);
+    }
+
+    public Reservation getReservation(@PathVariable Long reservationId) {
+        return reservationRepository.getReservation(reservationId)
+                .orElseThrow(ReservationException.ReservationNotExistException::new);
     }
 }

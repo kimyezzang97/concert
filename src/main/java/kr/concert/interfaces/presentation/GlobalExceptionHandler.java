@@ -49,4 +49,18 @@ public class GlobalExceptionHandler {
         return new ApiResponse<>(false, 401, e.getMessage(), null);
     }
 
+    @ExceptionHandler(ReservationException.ReservationNotExistException.class)
+    public ApiResponse<?> ReservationNotExistException(ReservationException.ReservationNotExistException e) {
+        return new ApiResponse<>(false, 400, e.getMessage(), null);
+    }
+
+    @ExceptionHandler(MemberException.InvalidAmountException.class)
+    public ApiResponse<?> InvalidAmountException(MemberException.InvalidAmountException e) {
+        return new ApiResponse<>(false, 400, e.getMessage(), null);
+    }
+
+    @ExceptionHandler(MemberException.InsufficientPointException.class)
+    public ApiResponse<?> InsufficientPointException(MemberException.InsufficientPointException e) {
+        return new ApiResponse<>(false, 400, e.getMessage(), null);
+    }
 }

@@ -20,4 +20,16 @@ public class MemberException {
         }
     }
 
+    public static class InvalidAmountException extends RuntimeException {
+        public InvalidAmountException() {
+            super("You can't payment 0 or less!");
+        }
+    }
+
+    public static class InsufficientPointException extends RuntimeException {
+        public InsufficientPointException() {
+            super("Not Enough Points");
+        }
+    }
+
 }

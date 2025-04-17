@@ -50,4 +50,8 @@ public class Reservation extends BaseEntity {
         reservation.expiredAt = expiredAt;
         return reservation;
     }
+
+    public void confirmReservation() {
+        this.reservationStatus = ReservationStatus.RESERVED;
+    }
 }

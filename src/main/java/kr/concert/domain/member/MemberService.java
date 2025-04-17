@@ -44,5 +44,11 @@ public class MemberService {
                 .orElseThrow(MemberException.MemberNotFoundException::new);
     }
 
+    public void paymentPoint(Member member, Long amount){
+        if (amount == null || amount <= 0) throw new MemberException.InvalidAmountException();
+        if (member.getPoint() < amount) throw new MemberException.InsufficientPointException();
+
+        member.paymentPoint(amount);
+    }
 
 }
