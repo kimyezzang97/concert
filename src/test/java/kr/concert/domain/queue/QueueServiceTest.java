@@ -99,4 +99,52 @@ class QueueServiceTest {
         assertThat(result.position()).isEqualTo(5); // 4명 앞 + 자기 자신
     }
 
+    @Test
+    @DisplayName("토큰과 회원 ID가 유효하고 상태가 PLAY면 검증이 성공합니다.")
+    void checkTokenSuccess() {
+        // given
+        String token = "sample-token";
+        Long memberId = 1L;
+
+        Member member = new Member(memberId, "테스트유저", 1000L);
+        Queue queue = Queue.create(member, token);
+        queue.changeStatusToPlay(); // 상태 PLAY로 변경
+
+        when(queueRepository.findByTokenAndMember_MemberId(token, memberId)).thenReturn(Optional.of(queue));
+
+        // when & then
+        assertDoesNotThrow(() -> queueService.checkToken(token, memberId));
+    }
+
+    @Test
+    @DisplayName("토큰과 회원 ID에 해당하는 대기열이 없으면 예외가 발생합니다.")
+    void ifNotExistTokenThrowsException() {
+        // given
+        String token = "invalid-token";
+        Long memberId = 2L;
+
+        when(queueRepository.findByTokenAndMember_MemberId(token, memberId)).thenReturn(Optional.empty());
+
+        // when & then
+        assertThatThrownBy(() -> queueService.checkToken(token, memberId))
+                .isInstanceOf(QueueException.TokenNotExistException.class);
+    }
+
+    @Test
+    @DisplayName("대기열 상태가 PLAY가 아니면 예외가 발생합니다.")
+    void ifNotPlayTokenThrowsException() {
+        // given
+        String token = "not-play-token";
+        Long memberId = 3L;
+
+        Member member = new Member(memberId, "테스트유저2", 2000L);
+        Queue queue = Queue.create(member, token); // 기본 상태는 WAIT
+
+        when(queueRepository.findByTokenAndMember_MemberId(token, memberId)).thenReturn(Optional.of(queue));
+
+        // when & then
+        assertThatThrownBy(() -> queueService.checkToken(token, memberId))
+                .isInstanceOf(QueueException.TokenNotPlayException.class);
+    }
+
 }
