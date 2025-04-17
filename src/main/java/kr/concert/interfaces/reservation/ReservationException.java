@@ -19,4 +19,10 @@ public class ReservationException {
             super("Seat Not Exists");
         }
     }
+
+    public static class SeatImpossibleException extends RuntimeException {
+        public SeatImpossibleException() {
+            super("Seat Impossible");
+        }
+    }
 }

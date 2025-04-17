@@ -45,8 +45,9 @@ public class ReservationController implements SwaggerReservationApi {
     /**
      * 좌석 예약
      */
-    @PostMapping("/seats/{seatId}")
-    public void reserve(@PathVariable Long seatId, @RequestBody ReservationRequest.Reservation reservation) {
-
+    @PostMapping("/seats")
+    public ApiResponse<ReservationResponse.Reserve> reserve(@RequestBody ReservationRequest.Reserve reservation) {
+        return new ApiResponse<>(true, 200, "콘서트 예약 성공",
+                reservationFacade.reserve(reservation.seatId(), reservation.memberId(), reservation.token()));
     }
 }

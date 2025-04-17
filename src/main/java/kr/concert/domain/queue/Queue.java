@@ -48,4 +48,7 @@ public class Queue extends BaseEntity {
         return queue;
     }
 
+    public void changeStatusToPlay(){
+        queueStatus = QueueStatus.PLAY;
+    }
 }

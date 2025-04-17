@@ -1,7 +1,13 @@
 package kr.concert.application.reservation;
 
 import kr.concert.domain.concert.ConcertService;
+import kr.concert.domain.member.Member;
+import kr.concert.domain.member.MemberService;
+import kr.concert.domain.queue.QueueService;
+import kr.concert.domain.reservation.Reservation;
+import kr.concert.domain.reservation.ReservationService;
 import kr.concert.domain.schedule.ScheduleService;
+import kr.concert.domain.seat.Seat;
 import kr.concert.domain.seat.SeatService;
 import kr.concert.interfaces.reservation.ReservationResponse;
 import org.springframework.stereotype.Component;
@@ -16,11 +22,18 @@ public class ReservationFacade {
     private final ConcertService concertService;
     private final ScheduleService scheduleService;
     private final SeatService seatService;
+    private final QueueService queueService;
+    private final ReservationService reservationService;
+    private final MemberService memberService;
 
-    public ReservationFacade(ConcertService concertService, ScheduleService scheduleService, SeatService seatService) {
+    public ReservationFacade(ConcertService concertService, ScheduleService scheduleService, SeatService seatService, QueueService queueService,
+                             ReservationService reservationService, MemberService memberService) {
         this.concertService = concertService;
         this.scheduleService = scheduleService;
         this.seatService = seatService;
+        this.queueService = queueService;
+        this.reservationService = reservationService;
+        this.memberService = memberService;
     }
 
     // 콘서트 목록 조회
@@ -63,7 +76,16 @@ public class ReservationFacade {
     }
 
     // 좌석 예약
-    public void reserve(Long seatId, Long memberId){
+    @Transactional(rollbackFor = Exception.class)
+    public ReservationResponse.Reserve reserve(Long seatId, Long memberId, String token){
+        queueService.checkToken(token, memberId);
+        seatService.reserveSeat(seatId);
 
+        Member member = memberService.getMember(memberId);
+        Seat seat = seatService.getSeat(seatId);
+
+        Reservation reservation = reservationService.createReservation(member, seat);
+
+        return new ReservationResponse.Reserve(reservation.getReservationId(), reservation.getReservationStatus(), reservation.getExpiredAt());
     }
 }

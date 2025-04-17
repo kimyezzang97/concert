@@ -44,4 +44,9 @@ public class GlobalExceptionHandler {
         return new ApiResponse<>(false, 401, e.getMessage(), null);
     }
 
+    @ExceptionHandler(QueueException.TokenNotPlayException.class)
+    public ApiResponse<?> TokenNotPlayException(QueueException.TokenNotPlayException e) {
+        return new ApiResponse<>(false, 401, e.getMessage(), null);
+    }
+
 }

@@ -31,4 +31,9 @@ public class QueueRepositoryImpl implements QueueRepository {
     public Long countByQueueStatusAndQueueIdLessThan(QueueStatus status, Long queueId) {
         return queueJpaRepository.countByQueueStatusAndQueueIdLessThan(status, queueId);
     }
+
+    @Override
+    public Optional<Queue> findByTokenAndMember_MemberId(String token, Long memberId) {
+        return queueJpaRepository.findByTokenAndMember_MemberId(token, memberId);
+    }
 }

@@ -11,4 +11,6 @@ public interface QueueJpaRepository extends JpaRepository<Queue, Long> {
     Optional<Queue> findByToken(String token);
 
     Long countByQueueStatusAndQueueIdLessThan(QueueStatus status, Long queueId);
+
+    Optional<Queue> findByTokenAndMember_MemberId(String token, Long memberId);
 }

@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,4 +31,8 @@ public class Seat extends BaseEntity {
 
     @Column(name = "seat_status", nullable = false)
     private boolean seatStatus; // 좌석 상태 POSSIBLE / IMPOSSIBLE
+
+    public void reserveSeatStatus(){
+        this.seatStatus = false;
+    }
 }

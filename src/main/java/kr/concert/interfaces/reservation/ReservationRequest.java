@@ -1,8 +1,7 @@
 package kr.concert.interfaces.reservation;
 
-import java.time.LocalDateTime;
 
 public class ReservationRequest {
 
-    public record Reservation(Long memberId) {}
+    public record Reserve(Long memberId, String token, Long seatId) {}
 }

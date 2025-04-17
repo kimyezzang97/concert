@@ -3,8 +3,10 @@ package kr.concert.infra.config.swagger.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.concert.interfaces.presentation.ApiResponse;
+import kr.concert.interfaces.reservation.ReservationRequest;
 import kr.concert.interfaces.reservation.ReservationResponse;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -19,4 +21,7 @@ public interface SwaggerReservationApi {
 
     @Operation(summary = "좌석 조회", description = "콘서트의 좌석을 조회합니다.")
     ApiResponse<List<ReservationResponse.GetSeatsOfSchedule>> getSeatsOfSchedule(@PathVariable Long scheduleId);
+
+    @Operation(summary = "좌석 예약", description = "콘서트의 좌석을 예약합니다.")
+    ApiResponse<ReservationResponse.Reserve> reserve(@RequestBody ReservationRequest.Reserve reservation);
 }

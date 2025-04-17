@@ -7,4 +7,10 @@ public class QueueException {
             super("Token Not Exists");
         }
     }
+
+    public static class TokenNotPlayException extends RuntimeException {
+        public TokenNotPlayException() {
+            super("Token Not Play");
+        }
+    }
 }

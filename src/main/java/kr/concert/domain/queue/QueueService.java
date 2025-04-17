@@ -35,4 +35,11 @@ public class QueueService {
 
         return new QueueResponse.QueueStatus(queue.getQueueStatus().toString(), position, queue.getExpiredAt());
     }
+
+    public void checkToken(String token, Long memberId) {
+        Queue queue = queueRepository.findByTokenAndMember_MemberId(token, memberId)
+                .orElseThrow(QueueException.TokenNotExistException::new);
+
+        if (!queue.getQueueStatus().equals(QueueStatus.PLAY)) throw new QueueException.TokenNotPlayException();
+    }
 }
