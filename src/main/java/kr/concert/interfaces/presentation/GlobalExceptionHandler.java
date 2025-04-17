@@ -1,6 +1,7 @@
 package kr.concert.interfaces.presentation;
 
 import kr.concert.interfaces.member.MemberException;
+import kr.concert.interfaces.queue.QueueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import kr.concert.interfaces.reservation.ReservationException;
@@ -38,4 +39,28 @@ public class GlobalExceptionHandler {
         return new ApiResponse<>(false, 204, e.getMessage(), null);
     }
 
+    @ExceptionHandler(QueueException.TokenNotExistException.class)
+    public ApiResponse<?> TokenNotExistException(QueueException.TokenNotExistException e) {
+        return new ApiResponse<>(false, 401, e.getMessage(), null);
+    }
+
+    @ExceptionHandler(QueueException.TokenNotPlayException.class)
+    public ApiResponse<?> TokenNotPlayException(QueueException.TokenNotPlayException e) {
+        return new ApiResponse<>(false, 401, e.getMessage(), null);
+    }
+
+    @ExceptionHandler(ReservationException.ReservationNotExistException.class)
+    public ApiResponse<?> ReservationNotExistException(ReservationException.ReservationNotExistException e) {
+        return new ApiResponse<>(false, 400, e.getMessage(), null);
+    }
+
+    @ExceptionHandler(MemberException.InvalidAmountException.class)
+    public ApiResponse<?> InvalidAmountException(MemberException.InvalidAmountException e) {
+        return new ApiResponse<>(false, 400, e.getMessage(), null);
+    }
+
+    @ExceptionHandler(MemberException.InsufficientPointException.class)
+    public ApiResponse<?> InsufficientPointException(MemberException.InsufficientPointException e) {
+        return new ApiResponse<>(false, 400, e.getMessage(), null);
+    }
 }

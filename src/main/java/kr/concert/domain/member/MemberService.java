@@ -1,10 +1,11 @@
 package kr.concert.domain.member;
 
+import jakarta.persistence.Table;
 import kr.concert.interfaces.member.MemberException;
 import kr.concert.interfaces.member.MemberResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -18,25 +19,36 @@ public class MemberService {
     }
 
     // 회원의 포인트 잔액을 조회한다.
+    @Transactional(readOnly = true)
     public MemberResponse.GetPoint getPoint(Long memberId) {
-        Optional<Member> member = memberRepository.getMember(memberId);
-        if(member.isEmpty()) throw new MemberException.MemberNotFoundException();
+        Member resultMember = memberRepository.findById(memberId)
+                .orElseThrow(MemberException.MemberNotFoundException::new);
 
-        Member result = member.get();
-        return new MemberResponse.GetPoint(result.getMemberId(), result.getMemberName(), result.getPoint());
+        return new MemberResponse.GetPoint(resultMember.getMemberId(), resultMember.getMemberName(), resultMember.getPoint());
     }
 
     // 회원의 포인트를 충전한다.
+    @Transactional(rollbackFor = Exception.class)
     public MemberResponse.ChargePoint chargePoint(Long memberId, Long chargePoint) {
-        Optional<Member> member = memberRepository.getMember(memberId);
-        if(member.isEmpty()) throw new MemberException.MemberNotFoundException();
+        Member resultMember = memberRepository.findById(memberId)
+                .orElseThrow(MemberException.MemberNotFoundException::new);
 
-        Member resultMember = member.get();
-        resultMember.chargePoint(chargePoint, LocalDateTime.now());
+        resultMember.chargePoint(chargePoint);
 
-        return new MemberResponse.ChargePoint(resultMember.getMemberId(), resultMember.getMemberName(), chargePoint);
+        return new MemberResponse.ChargePoint(resultMember.getMemberId(), resultMember.getMemberName(), resultMember.getPoint());
     }
 
+    // memberId로 회원을 조회한다.
+    public Member getMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(MemberException.MemberNotFoundException::new);
+    }
 
+    public void paymentPoint(Member member, Long amount){
+        if (amount == null || amount <= 0) throw new MemberException.InvalidAmountException();
+        if (member.getPoint() < amount) throw new MemberException.InsufficientPointException();
+
+        member.paymentPoint(amount);
+    }
 
 }

@@ -34,7 +34,7 @@ class ConcertServiceTest {
     @DisplayName("등록된 콘서트가 없으면 예외가 발생한다.")
     void ifNotExistConcertsCanNotGetList() {
         // given
-        given(concertRepository.getConcerts()).willReturn(Collections.emptyList());
+        given(concertRepository.findAll()).willReturn(Collections.emptyList());
 
         // when & then
         assertThatThrownBy(() -> concertService.getConcerts())
@@ -47,9 +47,9 @@ class ConcertServiceTest {
     void ifExistConcertsCanGetList() {
         // given
         List<Concert> concerts = List.of(
-                new Concert(1L, "뮤직 페스티벌", LocalDateTime.of(2025, 4, 10, 0, 0), LocalDateTime.now())
+                new Concert(1L, "뮤직 페스티벌")
         );
-        given(concertRepository.getConcerts()).willReturn(concerts);
+        given(concertRepository.findAll()).willReturn(concerts);
 
         // when
         List<Concert> result = concertService.getConcerts();

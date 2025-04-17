@@ -42,6 +42,8 @@ dependencies {
 	testCompileOnly("org.projectlombok:lombok")
 	testAnnotationProcessor("org.projectlombok:lombok")
 
+	// swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
 
 	// DB
 	runtimeOnly("com.mysql:mysql-connector-j")

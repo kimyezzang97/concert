@@ -1,8 +1,8 @@
 package kr.concert.domain.concert;
 
-import kr.concert.domain.member.MemberRepository;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,8 +15,9 @@ public class ConcertService {
         this.concertRepository = concertRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<Concert> getConcerts() {
-        List<Concert> concerts = concertRepository.getConcerts();
+        List<Concert> concerts = concertRepository.findAll();
 
         if (concerts.isEmpty()) throw new ReservationException.ConcertNotExistException();
         return concerts;
