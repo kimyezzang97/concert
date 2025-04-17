@@ -57,4 +57,21 @@ class QueueTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("토큰은 null 또는 빈 문자열일 수 없습니다.");
     }
+
+    @Test
+    @DisplayName("Queue 상태를 PLAY 로 변경합니다.")
+    void changeStatusToPlay_updatesQueueStatus() {
+        // given
+        Member member = new Member(1L, "테스트회원", 1000L);
+        String token = "sample-token";
+
+        Queue queue = Queue.create(member, token);
+        assertThat(queue.getQueueStatus()).isEqualTo(QueueStatus.WAIT); // 초기 상태 확인
+
+        // when
+        queue.changeStatusToPlay();
+
+        // then
+        assertThat(queue.getQueueStatus()).isEqualTo(QueueStatus.PLAY);
+    }
 }
