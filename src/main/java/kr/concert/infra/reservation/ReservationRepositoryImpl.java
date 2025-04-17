@@ -1,4 +1,4 @@
-package kr.concert.infra.impl;
+package kr.concert.infra.reservation;
 
 import kr.concert.domain.reservation.Reservation;
 import kr.concert.domain.reservation.ReservationRepository;
