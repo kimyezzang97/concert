@@ -37,7 +37,7 @@ ___
 ___
 ## Docs
 - [📝 마일스톤](https://github.com/users/kimyezzang97/projects/2/views/1?groupedBy%5BcolumnId%5D=Milestone)
-- [📌 ERD](https://github.com/kimyezzang97/hhp-concert/blob/STEP03/docs/erd/ERD.md)
+- [📌 ERD](https://github.com/kimyezzang97/hhp-concert/blob/WEEK04_REAL/docs/erd/ERD.md)
 - [▶ 시퀀스](https://github.com/kimyezzang97/hhp-concert/tree/STEP03/docs/sequence)
 
 
@@ -52,3 +52,6 @@ ___
 ```bash
 docker-compose up -d
 ```
+
+테이블 생성 및 더미데이터 insert를 위해 application.yml의 
+spring - sql - init - mode 를 always로 바꿔주세요
