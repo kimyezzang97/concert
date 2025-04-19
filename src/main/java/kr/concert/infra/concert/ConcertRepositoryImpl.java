@@ -1,7 +1,7 @@
 package kr.concert.infra.concert;
 
-import kr.concert.domain.concert.Concert;
-import kr.concert.domain.concert.ConcertRepository;
+import kr.concert.domain.concert.entity.Concert;
+import kr.concert.domain.concert.repo.ConcertRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

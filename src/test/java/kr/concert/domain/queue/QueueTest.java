@@ -1,6 +1,7 @@
 package kr.concert.domain.queue;
 
-import kr.concert.domain.member.Member;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.queue.entity.Queue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +9,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 class QueueTest {
 

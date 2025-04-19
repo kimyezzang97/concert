@@ -1,9 +1,8 @@
 package kr.concert.infra.queue;
 
-import kr.concert.domain.queue.Queue;
-import kr.concert.domain.queue.QueueRepository;
+import kr.concert.domain.queue.entity.Queue;
+import kr.concert.domain.queue.repo.QueueRepository;
 import kr.concert.domain.queue.QueueStatus;
-import org.hibernate.annotations.SQLRestriction;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

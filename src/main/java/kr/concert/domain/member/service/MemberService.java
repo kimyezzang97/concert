@@ -1,12 +1,11 @@
-package kr.concert.domain.member;
+package kr.concert.domain.member.service;
 
-import jakarta.persistence.Table;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.member.repo.MemberRepository;
 import kr.concert.interfaces.member.MemberException;
 import kr.concert.interfaces.member.MemberResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 
 @Service

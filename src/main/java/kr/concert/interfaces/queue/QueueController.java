@@ -1,7 +1,7 @@
 package kr.concert.interfaces.queue;
 
 import kr.concert.application.queue.QueueFacade;
-import kr.concert.domain.queue.QueueService;
+import kr.concert.domain.queue.service.QueueService;
 import kr.concert.infra.config.swagger.api.SwaggerQueueApi;
 import kr.concert.interfaces.presentation.ApiResponse;
 import org.springframework.web.bind.annotation.PostMapping;

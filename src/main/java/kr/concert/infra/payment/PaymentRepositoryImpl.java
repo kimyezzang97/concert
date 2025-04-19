@@ -1,7 +1,7 @@
 package kr.concert.infra.payment;
 
-import kr.concert.domain.payment.Payment;
-import kr.concert.domain.payment.PaymentRepository;
+import kr.concert.domain.payment.entity.Payment;
+import kr.concert.domain.payment.repo.PaymentRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

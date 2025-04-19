@@ -1,13 +1,11 @@
 package kr.concert.application.payment;
 
-import kr.concert.domain.member.Member;
-import kr.concert.domain.member.MemberService;
-import kr.concert.domain.payment.PaymentService;
-import kr.concert.domain.reservation.Reservation;
-import kr.concert.domain.reservation.ReservationService;
-import kr.concert.interfaces.payment.PaymentRequest;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.member.service.MemberService;
+import kr.concert.domain.payment.service.PaymentService;
+import kr.concert.domain.reservation.entity.Reservation;
+import kr.concert.domain.reservation.service.ReservationService;
 import kr.concert.interfaces.payment.PaymentResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

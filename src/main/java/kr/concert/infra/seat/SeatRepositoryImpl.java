@@ -1,7 +1,7 @@
 package kr.concert.infra.seat;
 
-import kr.concert.domain.seat.Seat;
-import kr.concert.domain.seat.SeatRepository;
+import kr.concert.domain.seat.entity.Seat;
+import kr.concert.domain.seat.repo.SeatRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

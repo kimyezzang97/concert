@@ -1,7 +1,10 @@
 package kr.concert.domain.seat;
 
-import kr.concert.domain.concert.Concert;
-import kr.concert.domain.schedule.Schedule;
+import kr.concert.domain.concert.entity.Concert;
+import kr.concert.domain.schedule.entity.Schedule;
+import kr.concert.domain.seat.entity.Seat;
+import kr.concert.domain.seat.repo.SeatRepository;
+import kr.concert.domain.seat.service.SeatService;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +20,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

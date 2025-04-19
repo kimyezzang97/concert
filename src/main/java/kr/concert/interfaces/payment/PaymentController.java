@@ -1,10 +1,8 @@
 package kr.concert.interfaces.payment;
 
 import kr.concert.application.payment.PaymentFacade;
-import kr.concert.domain.payment.PaymentService;
 import kr.concert.infra.config.swagger.api.SwaggerPaymentApi;
 import kr.concert.interfaces.presentation.ApiResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

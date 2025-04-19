@@ -1,9 +1,9 @@
-package kr.concert.domain.schedule;
+package kr.concert.domain.schedule.service;
 
-import kr.concert.domain.concert.Concert;
+import kr.concert.domain.schedule.entity.Schedule;
+import kr.concert.domain.schedule.repo.ScheduleRepository;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

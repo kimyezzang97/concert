@@ -1,4 +1,4 @@
-package kr.concert.domain.member;
+package kr.concert.domain.member.entity;
 
 import jakarta.persistence.*;
 import kr.concert.domain.BaseEntity;

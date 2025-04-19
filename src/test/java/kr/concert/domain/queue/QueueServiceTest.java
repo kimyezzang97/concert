@@ -1,6 +1,9 @@
 package kr.concert.domain.queue;
 
-import kr.concert.domain.member.Member;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.queue.entity.Queue;
+import kr.concert.domain.queue.repo.QueueRepository;
+import kr.concert.domain.queue.service.QueueService;
 import kr.concert.interfaces.queue.QueueException;
 import kr.concert.interfaces.queue.QueueResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 

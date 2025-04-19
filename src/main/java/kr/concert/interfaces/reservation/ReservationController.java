@@ -1,7 +1,6 @@
 package kr.concert.interfaces.reservation;
 
 import kr.concert.application.reservation.ReservationFacade;
-import kr.concert.domain.reservation.ReservationService;
 import kr.concert.infra.config.swagger.api.SwaggerReservationApi;
 import kr.concert.interfaces.presentation.ApiResponse;
 import org.springframework.web.bind.annotation.*;

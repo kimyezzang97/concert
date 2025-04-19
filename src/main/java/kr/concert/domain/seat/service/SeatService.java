@@ -1,5 +1,7 @@
-package kr.concert.domain.seat;
+package kr.concert.domain.seat.service;
 
+import kr.concert.domain.seat.entity.Seat;
+import kr.concert.domain.seat.repo.SeatRepository;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.springframework.stereotype.Service;
 

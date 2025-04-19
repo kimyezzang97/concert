@@ -1,9 +1,12 @@
 package kr.concert.domain.reservation;
 
-import kr.concert.domain.concert.Concert;
-import kr.concert.domain.member.Member;
-import kr.concert.domain.schedule.Schedule;
-import kr.concert.domain.seat.Seat;
+import kr.concert.domain.concert.entity.Concert;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.reservation.entity.Reservation;
+import kr.concert.domain.reservation.repo.ReservationRepository;
+import kr.concert.domain.reservation.service.ReservationService;
+import kr.concert.domain.schedule.entity.Schedule;
+import kr.concert.domain.seat.entity.Seat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 

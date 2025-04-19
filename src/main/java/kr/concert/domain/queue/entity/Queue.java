@@ -1,16 +1,15 @@
-package kr.concert.domain.queue;
+package kr.concert.domain.queue.entity;
 
 import jakarta.persistence.*;
 import kr.concert.domain.BaseEntity;
-import kr.concert.domain.member.Member;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.queue.QueueStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

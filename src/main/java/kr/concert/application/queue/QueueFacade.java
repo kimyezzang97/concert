@@ -1,13 +1,10 @@
 package kr.concert.application.queue;
 
-import kr.concert.domain.member.Member;
-import kr.concert.domain.member.MemberService;
-import kr.concert.domain.queue.Queue;
-import kr.concert.domain.queue.QueueService;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.member.service.MemberService;
+import kr.concert.domain.queue.service.QueueService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Component
 public class QueueFacade {

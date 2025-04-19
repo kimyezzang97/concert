@@ -1,5 +1,8 @@
-package kr.concert.domain.queue;
+package kr.concert.domain.queue.repo;
 
+
+import kr.concert.domain.queue.QueueStatus;
+import kr.concert.domain.queue.entity.Queue;
 
 import java.util.Optional;
 

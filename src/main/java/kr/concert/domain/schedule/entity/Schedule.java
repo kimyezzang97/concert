@@ -1,8 +1,8 @@
-package kr.concert.domain.schedule;
+package kr.concert.domain.schedule.entity;
 
 import jakarta.persistence.*;
 import kr.concert.domain.BaseEntity;
-import kr.concert.domain.concert.Concert;
+import kr.concert.domain.concert.entity.Concert;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

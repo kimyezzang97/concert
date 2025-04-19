@@ -1,6 +1,6 @@
 package kr.concert.infra.schedule;
 
-import kr.concert.domain.schedule.Schedule;
+import kr.concert.domain.schedule.entity.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

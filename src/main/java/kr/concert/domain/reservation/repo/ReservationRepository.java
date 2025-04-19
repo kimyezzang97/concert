@@ -1,9 +1,7 @@
-package kr.concert.domain.reservation;
+package kr.concert.domain.reservation.repo;
 
-import kr.concert.domain.member.Member;
-import kr.concert.domain.queue.Queue;
+import kr.concert.domain.reservation.entity.Reservation;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface ReservationRepository {

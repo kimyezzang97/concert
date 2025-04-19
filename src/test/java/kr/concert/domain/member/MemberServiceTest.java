@@ -1,5 +1,8 @@
 package kr.concert.domain.member;
 
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.member.repo.MemberRepository;
+import kr.concert.domain.member.service.MemberService;
 import kr.concert.interfaces.member.MemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

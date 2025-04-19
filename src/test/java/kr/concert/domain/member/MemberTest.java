@@ -1,5 +1,6 @@
 package kr.concert.domain.member;
 
+import kr.concert.domain.member.entity.Member;
 import kr.concert.interfaces.member.MemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 class MemberTest {

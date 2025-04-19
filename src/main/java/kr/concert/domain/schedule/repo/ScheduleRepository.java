@@ -1,6 +1,6 @@
-package kr.concert.domain.schedule;
+package kr.concert.domain.schedule.repo;
 
-import kr.concert.domain.concert.Concert;
+import kr.concert.domain.schedule.entity.Schedule;
 
 import java.util.List;
 

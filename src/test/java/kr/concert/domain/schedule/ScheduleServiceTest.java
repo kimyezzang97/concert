@@ -1,6 +1,9 @@
 package kr.concert.domain.schedule;
 
-import kr.concert.domain.concert.Concert;
+import kr.concert.domain.concert.entity.Concert;
+import kr.concert.domain.schedule.entity.Schedule;
+import kr.concert.domain.schedule.repo.ScheduleRepository;
+import kr.concert.domain.schedule.service.ScheduleService;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +18,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)

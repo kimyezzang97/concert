@@ -1,19 +1,14 @@
-package kr.concert.domain.reservation;
+package kr.concert.domain.reservation.service;
 
-import kr.concert.domain.concert.Concert;
-import kr.concert.domain.member.Member;
-import kr.concert.domain.seat.Seat;
-import kr.concert.interfaces.presentation.ApiResponse;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.reservation.entity.Reservation;
+import kr.concert.domain.reservation.repo.ReservationRepository;
+import kr.concert.domain.seat.entity.Seat;
 import kr.concert.interfaces.reservation.ReservationException;
-import kr.concert.interfaces.reservation.ReservationRequest;
-import kr.concert.interfaces.reservation.ReservationResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class ReservationService {

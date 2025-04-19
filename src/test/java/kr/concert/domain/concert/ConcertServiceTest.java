@@ -1,9 +1,10 @@
 package kr.concert.domain.concert;
 
 
-import kr.concert.interfaces.member.MemberException;
+import kr.concert.domain.concert.entity.Concert;
+import kr.concert.domain.concert.repo.ConcertRepository;
+import kr.concert.domain.concert.service.ConcertService;
 import kr.concert.interfaces.reservation.ReservationException;
-import kr.concert.interfaces.reservation.ReservationResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,14 +12,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)

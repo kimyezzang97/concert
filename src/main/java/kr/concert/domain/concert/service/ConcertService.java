@@ -1,5 +1,7 @@
-package kr.concert.domain.concert;
+package kr.concert.domain.concert.service;
 
+import kr.concert.domain.concert.entity.Concert;
+import kr.concert.domain.concert.repo.ConcertRepository;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

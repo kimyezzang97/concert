@@ -1,6 +1,6 @@
 package kr.concert.interfaces.member;
 
-import kr.concert.domain.member.MemberService;
+import kr.concert.domain.member.service.MemberService;
 import kr.concert.infra.config.swagger.api.SwaggerMemberApi;
 import kr.concert.interfaces.presentation.ApiResponse;
 import org.springframework.web.bind.annotation.*;

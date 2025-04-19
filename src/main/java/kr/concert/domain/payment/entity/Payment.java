@@ -1,10 +1,9 @@
-package kr.concert.domain.payment;
+package kr.concert.domain.payment.entity;
 
 import jakarta.persistence.*;
 import kr.concert.domain.BaseEntity;
-import kr.concert.domain.member.Member;
-import kr.concert.domain.reservation.Reservation;
-import kr.concert.domain.seat.Seat;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.reservation.entity.Reservation;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package kr.concert.infra.queue;
 
-import kr.concert.domain.queue.Queue;
+import kr.concert.domain.queue.entity.Queue;
 import kr.concert.domain.queue.QueueStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 

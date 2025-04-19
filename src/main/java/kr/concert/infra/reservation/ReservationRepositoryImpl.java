@@ -1,7 +1,7 @@
 package kr.concert.infra.reservation;
 
-import kr.concert.domain.reservation.Reservation;
-import kr.concert.domain.reservation.ReservationRepository;
+import kr.concert.domain.reservation.entity.Reservation;
+import kr.concert.domain.reservation.repo.ReservationRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

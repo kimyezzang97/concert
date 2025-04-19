@@ -1,14 +1,14 @@
 package kr.concert.application.reservation;
 
-import kr.concert.domain.concert.ConcertService;
-import kr.concert.domain.member.Member;
-import kr.concert.domain.member.MemberService;
-import kr.concert.domain.queue.QueueService;
-import kr.concert.domain.reservation.Reservation;
-import kr.concert.domain.reservation.ReservationService;
-import kr.concert.domain.schedule.ScheduleService;
-import kr.concert.domain.seat.Seat;
-import kr.concert.domain.seat.SeatService;
+import kr.concert.domain.concert.service.ConcertService;
+import kr.concert.domain.member.entity.Member;
+import kr.concert.domain.member.service.MemberService;
+import kr.concert.domain.queue.service.QueueService;
+import kr.concert.domain.reservation.entity.Reservation;
+import kr.concert.domain.reservation.service.ReservationService;
+import kr.concert.domain.schedule.service.ScheduleService;
+import kr.concert.domain.seat.entity.Seat;
+import kr.concert.domain.seat.service.SeatService;
 import kr.concert.interfaces.reservation.ReservationResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

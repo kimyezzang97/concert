@@ -1,14 +1,14 @@
 package kr.concert.domain.seat;
 
-import kr.concert.domain.concert.Concert;
-import kr.concert.domain.schedule.Schedule;
+import kr.concert.domain.concert.entity.Concert;
+import kr.concert.domain.schedule.entity.Schedule;
+import kr.concert.domain.seat.entity.Seat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class SeatTest {
 

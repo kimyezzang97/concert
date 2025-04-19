@@ -1,4 +1,6 @@
-package kr.concert.domain.member;
+package kr.concert.domain.member.repo;
+
+import kr.concert.domain.member.entity.Member;
 
 import java.util.Optional;
 
