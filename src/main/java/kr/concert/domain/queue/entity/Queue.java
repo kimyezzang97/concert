@@ -47,7 +47,10 @@ public class Queue extends BaseEntity {
         return queue;
     }
 
-    public void changeStatusToPlay(){
+    public void changeStatusToPlay(LocalDateTime expiredAt) {
         queueStatus = QueueStatus.PLAY;
+        this.expiredAt = expiredAt;
     }
+
+    public void expire(){queueStatus = QueueStatus.EXPIRE;}
 }

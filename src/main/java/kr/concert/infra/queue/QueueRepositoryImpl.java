@@ -5,6 +5,8 @@ import kr.concert.domain.queue.repo.QueueRepository;
 import kr.concert.domain.queue.QueueStatus;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -34,5 +36,20 @@ public class QueueRepositoryImpl implements QueueRepository {
     @Override
     public Optional<Queue> findByTokenAndMember_MemberId(String token, Long memberId) {
         return queueJpaRepository.findByTokenAndMember_MemberId(token, memberId);
+    }
+
+    @Override
+    public Integer countByQueueStatus(QueueStatus status) {
+        return queueJpaRepository.countByQueueStatus(status);
+    }
+
+    @Override
+    public List<Queue> findAllTopNByQueueStatusOrderByQueueIdAsc(QueueStatus status, int limit) {
+        return queueJpaRepository.findAllTopNByQueueStatusOrderByQueueIdAsc(status, limit);
+    }
+
+    @Override
+    public List<Queue> findAllByQueueStatusAndExpiredAtBefore(QueueStatus status, LocalDateTime now) {
+        return queueJpaRepository.findAllByQueueStatusAndExpiredAtBefore(status, now);
     }
 }

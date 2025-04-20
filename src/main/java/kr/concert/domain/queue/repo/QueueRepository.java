@@ -4,6 +4,8 @@ package kr.concert.domain.queue.repo;
 import kr.concert.domain.queue.QueueStatus;
 import kr.concert.domain.queue.entity.Queue;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface QueueRepository {
@@ -15,4 +17,10 @@ public interface QueueRepository {
     Long countByQueueStatusAndQueueIdLessThan(QueueStatus status, Long queueId);
 
     Optional<Queue> findByTokenAndMember_MemberId(String token, Long memberId);
+
+    Integer countByQueueStatus(QueueStatus status);
+
+    List<Queue> findAllTopNByQueueStatusOrderByQueueIdAsc(QueueStatus status, int limit);
+
+    List<Queue> findAllByQueueStatusAndExpiredAtBefore(QueueStatus status, LocalDateTime now);
 }

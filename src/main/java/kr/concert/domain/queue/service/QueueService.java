@@ -9,6 +9,8 @@ import kr.concert.interfaces.queue.QueueResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,6 +21,9 @@ public class QueueService {
     public QueueService(QueueRepository queueRepository) {
         this.queueRepository = queueRepository;
     }
+
+    private final int MAX_PLAY_NUM = 5; // PLAY(예매 가능) 상태의 최대 인원
+    private final int EXPIRE_MINUTES = 5;
 
     @Transactional(rollbackFor = Exception.class)
     public String createToken(Member member) {
@@ -33,6 +38,7 @@ public class QueueService {
         Queue queue = queueRepository.findByToken(token)
                 .orElseThrow(QueueException.TokenNotExistException::new);
 
+        // 순번 : 먼저 들어온 WAIT 상태 사용자 수 + 1
         long position = queueRepository.countByQueueStatusAndQueueIdLessThan(QueueStatus.WAIT , queue.getQueueId()) + 1;
 
         return new QueueResponse.QueueStatus(queue.getQueueStatus().toString(), position, queue.getExpiredAt());
@@ -44,4 +50,34 @@ public class QueueService {
 
         if (!queue.getQueueStatus().equals(QueueStatus.PLAY)) throw new QueueException.TokenNotPlayException();
     }
+
+    // PLAY
+    @Transactional(rollbackFor = Exception.class)
+    public void activateQueueStatus(){
+        System.out.println("=== start activate queue status ===");
+        int currentPlayCount = queueRepository.countByQueueStatus(QueueStatus.PLAY);
+        int batchSize = MAX_PLAY_NUM - currentPlayCount;
+
+        if (batchSize <= 0) return;
+
+        List<Queue> waitList = queueRepository.findAllTopNByQueueStatusOrderByQueueIdAsc(QueueStatus.WAIT, batchSize);
+
+        for (Queue queue : waitList) {
+            queue.changeStatusToPlay(LocalDateTime.now().plusMinutes(EXPIRE_MINUTES));
+        }
+    }
+
+    // EXPIRE
+    @Transactional(rollbackFor = Exception.class)
+    public void expireQueueStatus(){
+        System.out.println("=== start expire queue status ===");
+        List<Queue> willExiperList = queueRepository.findAllByQueueStatusAndExpiredAtBefore(QueueStatus.WAIT, LocalDateTime.now());
+
+        for (Queue queue : willExiperList) {
+            queue.expire();
+        }
+        System.out.println(" Expiring queues: " + willExiperList.size());
+        System.out.println("=== end expire queue status ===");
+    }
+
 }
