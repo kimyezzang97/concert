@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS reservation(
     reservation_id bigint auto_increment primary key comment '예약 ID',
     member_id bigint not null comment '회원 ID',
     seat_id bigint not null comment '좌석 ID',
-    reservation_status varchar(50) not null comment '예약 상태 (EMPTY/TEMP/RESERVED)',
+    reservation_status varchar(50) not null comment '예약 상태 (EMPTY/TEMP/RESERVED/CANCELLED)',
     created_at datetime not null default CURRENT_TIMESTAMP comment '생성 날짜',
     updated_at datetime not null default CURRENT_TIMESTAMP comment '수정 날짜',
     expired_at datetime comment '예약 만료 날짜',
