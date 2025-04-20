@@ -1,10 +1,10 @@
 spring:
   application:
-    name: hhplus
+    name: concert
   profiles:
     active: local
   datasource:
-    name: HangHaePlusDataSource
+    name: ConcertPlusDataSource
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       maximum-pool-size: 3
