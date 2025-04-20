@@ -13,6 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +33,9 @@ class QueueServiceTest {
 
     @InjectMocks
     private QueueService queueService;
+
+    private static final int MAX_PLAY_NUM = 50;
+    private static final int EXPIRE_MINUTES = 5;
 
     @Test
     @DisplayName("대기열 토큰 생성에 성공합니다.")
@@ -110,7 +116,7 @@ class QueueServiceTest {
 
         Member member = new Member(memberId, "테스트유저", 1000L);
         Queue queue = Queue.create(member, token);
-        queue.changeStatusToPlay(); // 상태 PLAY로 변경
+        queue.changeStatusToPlay(LocalDateTime.now().plusMinutes(5)); // 상태 PLAY로 변경
 
         when(queueRepository.findByTokenAndMember_MemberId(token, memberId)).thenReturn(Optional.of(queue));
 
@@ -149,4 +155,51 @@ class QueueServiceTest {
                 .isInstanceOf(QueueException.TokenNotPlayException.class);
     }
 
+    @DisplayName("현재 PLAY 상태의 인원이 5명 미만일 때, WAIT 상태에서 1명을 PLAY 상태로 변경한다.")
+    @Test
+    void activateQueueStatus_shouldUpdateWaitToPlay() {
+        // given
+        int currentPlayCount = 4;
+        int expectedToActivate = 1;
+
+        List<Queue> waitList = new ArrayList<>();
+        for (int i = 0; i < expectedToActivate; i++) {
+            Queue queue = mock(Queue.class);
+            waitList.add(queue);
+        }
+
+        when(queueRepository.countByQueueStatus(QueueStatus.PLAY)).thenReturn(currentPlayCount);
+        when(queueRepository.findAllTopNByQueueStatusOrderByQueueIdAsc(QueueStatus.WAIT, expectedToActivate))
+                .thenReturn(waitList);
+
+        // when
+        queueService.activateQueueStatus();
+
+        // then
+        for (Queue queue : waitList) {
+            verify(queue).changeStatusToPlay(any(LocalDateTime.class));
+        }
+    }
+
+    @DisplayName("WAIT 상태의 대기열 중 만료 시간이 지난 항목들을 EXPIRE 상태로 변경한다.")
+    @Test
+    void expireQueueStatus_shouldMarkExpiredQueues() {
+        // given
+        List<Queue> expiredQueues = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            Queue queue = mock(Queue.class);
+            expiredQueues.add(queue);
+        }
+
+        when(queueRepository.findAllByQueueStatusAndExpiredAtBefore(eq(QueueStatus.WAIT), any(LocalDateTime.class)))
+                .thenReturn(expiredQueues);
+
+        // when
+        queueService.expireQueueStatus();
+
+        // then
+        for (Queue queue : expiredQueues) {
+            verify(queue).expire();
+        }
+    }
 }

@@ -5,6 +5,7 @@ import kr.concert.domain.queue.entity.Queue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,7 +70,7 @@ class QueueTest {
         assertThat(queue.getQueueStatus()).isEqualTo(QueueStatus.WAIT); // 초기 상태 확인
 
         // when
-        queue.changeStatusToPlay();
+        queue.changeStatusToPlay(LocalDateTime.now().plusMinutes(5));
 
         // then
         assertThat(queue.getQueueStatus()).isEqualTo(QueueStatus.PLAY);
