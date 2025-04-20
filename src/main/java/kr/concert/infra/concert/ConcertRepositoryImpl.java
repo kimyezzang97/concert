@@ -19,4 +19,9 @@ public class ConcertRepositoryImpl implements ConcertRepository {
     public List<Concert> findAll() {
         return concertJpaRepository.findAll();
     }
+
+    @Override
+    public Concert save(Concert concert) {
+        return concertJpaRepository.save(concert);
+    }
 }

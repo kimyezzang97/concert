@@ -17,7 +17,7 @@ public class ReservationScheduler {
         this.reservationService = reservationService;
     }
 
-    @Scheduled(fixedRate = 1000) // 1초마다 실행
+    @Scheduled(fixedRate = 2000) // 2초마다 실행
     public void runExpireTempReservation() {
         // 만료기간이 지난 TEMP > EXPIRE 로 바꿔주기
         List<Seat> expiredSeatList = reservationService.cancelReservation();

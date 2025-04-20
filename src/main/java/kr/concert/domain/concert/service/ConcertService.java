@@ -25,4 +25,8 @@ public class ConcertService {
         return concerts;
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public Concert createConcert(Concert concert) {
+        return concertRepository.save(concert);
+    }
 }
