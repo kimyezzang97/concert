@@ -15,9 +15,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,5 +49,29 @@ class ReservationServiceTest {
         assertThat(result.getMember()).isEqualTo(member);
         assertThat(result.getSeat()).isEqualTo(seat);
         assertThat(result.getReservationStatus().name()).isEqualTo("TEMP");
+    }
+
+    @Test
+    @DisplayName("TEMP 상태의 만료된 예약들을 취소하고 좌석 리스트를 반환한다.")
+    void cancelReservation_shouldExpireReservationsAndReturnSeats() {
+        // given
+        Seat seat1 = mock(Seat.class);
+        Seat seat2 = mock(Seat.class);
+
+        Reservation reservation1 = mock(Reservation.class);
+        Reservation reservation2 = mock(Reservation.class);
+
+        when(reservation1.getSeat()).thenReturn(seat1);
+        when(reservation2.getSeat()).thenReturn(seat2);
+
+        List<Reservation> expiredReservations = List.of(reservation1, reservation2);
+        when(reservationRepository.getExpireReservations(eq(ReservationStatus.TEMP), any(LocalDateTime.class)))
+                .thenReturn(expiredReservations);
+
+        // when
+        List<Seat> result = reservationService.cancelReservation();
+
+        // then
+        assertThat(result).containsExactly(seat1, seat2);
     }
 }
