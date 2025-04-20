@@ -1,10 +1,8 @@
 spring:
   application:
     name: concert
-  profiles:
-    active: local
   datasource:
-    name: ConcertPlusDataSource
+    name: ConcertDataSource
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       maximum-pool-size: 3
@@ -22,7 +20,7 @@ spring:
       hibernate.jdbc.time_zone: Asia/Seoul
 
 ---
-spring.config.activate.on-profile: local, test
+spring.config.activate.on-profile: local
 
 spring:
   datasource:
@@ -42,3 +40,5 @@ springdoc:
     path: /swagger-ui.html # 리디렉션만 됨 (실제는 /swagger-ui/index.html)
     disable-swagger-default-url: true
     display-request-duration: true
+
+
