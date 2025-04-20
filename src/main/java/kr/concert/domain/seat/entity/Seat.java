@@ -35,4 +35,8 @@ public class Seat extends BaseEntity {
     public void reserveSeatStatus(){
         this.seatStatus = false;
     }
+
+    public void possibleSeatStatus(){
+        this.seatStatus = true;
+    }
 }

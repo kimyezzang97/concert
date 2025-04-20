@@ -3,9 +3,11 @@ package kr.concert.application.payment;
 import kr.concert.domain.member.entity.Member;
 import kr.concert.domain.member.service.MemberService;
 import kr.concert.domain.payment.service.PaymentService;
+import kr.concert.domain.reservation.ReservationStatus;
 import kr.concert.domain.reservation.entity.Reservation;
 import kr.concert.domain.reservation.service.ReservationService;
 import kr.concert.interfaces.payment.PaymentResponse;
+import kr.concert.interfaces.reservation.ReservationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,7 @@ public class PaymentFacade {
 
         // 예약 상태 변경
         reservation.confirmReservation();
+        if(reservation.getReservationStatus() == ReservationStatus.CANCELLED) throw new ReservationException.ReservationNotExistException();
 
         // 결제 생성
         return paymentService.createPayment(reservation, member, price);
