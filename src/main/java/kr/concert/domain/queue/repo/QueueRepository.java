@@ -3,6 +3,7 @@ package kr.concert.domain.queue.repo;
 
 import kr.concert.domain.queue.QueueStatus;
 import kr.concert.domain.queue.entity.Queue;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +21,7 @@ public interface QueueRepository {
 
     Integer countByQueueStatus(QueueStatus status);
 
-    List<Queue> findAllTopNByQueueStatusOrderByQueueIdAsc(QueueStatus status, int limit);
+    List<Queue> findTopNByQueueStatusOrderByQueueIdAsc(QueueStatus status, Pageable pageable);
 
     List<Queue> findAllByQueueStatusAndExpiredAtBefore(QueueStatus status, LocalDateTime now);
 }

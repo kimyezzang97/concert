@@ -6,6 +6,7 @@ import kr.concert.domain.queue.entity.Queue;
 import kr.concert.domain.queue.repo.QueueRepository;
 import kr.concert.interfaces.queue.QueueException;
 import kr.concert.interfaces.queue.QueueResponse;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,7 +61,8 @@ public class QueueService {
 
         if (batchSize <= 0) return;
 
-        List<Queue> waitList = queueRepository.findAllTopNByQueueStatusOrderByQueueIdAsc(QueueStatus.WAIT, batchSize);
+        PageRequest pageRequest = PageRequest.of(0, batchSize);
+        List<Queue> waitList = queueRepository.findTopNByQueueStatusOrderByQueueIdAsc(QueueStatus.WAIT, pageRequest);
 
         for (Queue queue : waitList) {
             queue.changeStatusToPlay(LocalDateTime.now().plusMinutes(EXPIRE_MINUTES));

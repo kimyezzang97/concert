@@ -3,6 +3,7 @@ package kr.concert.infra.queue;
 import kr.concert.domain.queue.entity.Queue;
 import kr.concert.domain.queue.repo.QueueRepository;
 import kr.concert.domain.queue.QueueStatus;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -44,8 +45,8 @@ public class QueueRepositoryImpl implements QueueRepository {
     }
 
     @Override
-    public List<Queue> findAllTopNByQueueStatusOrderByQueueIdAsc(QueueStatus status, int limit) {
-        return queueJpaRepository.findAllTopNByQueueStatusOrderByQueueIdAsc(status, limit);
+    public List<Queue> findTopNByQueueStatusOrderByQueueIdAsc(QueueStatus status, Pageable pageable) {
+        return queueJpaRepository.findTopNByQueueStatusOrderByQueueIdAsc(status, pageable);
     }
 
     @Override
