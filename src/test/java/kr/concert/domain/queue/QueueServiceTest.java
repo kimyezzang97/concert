@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -169,7 +170,8 @@ class QueueServiceTest {
         }
 
         when(queueRepository.countByQueueStatus(QueueStatus.PLAY)).thenReturn(currentPlayCount);
-        when(queueRepository.findAllTopNByQueueStatusOrderByQueueIdAsc(QueueStatus.WAIT, expectedToActivate))
+        PageRequest pageRequest = PageRequest.of(0, expectedToActivate);
+        when(queueRepository.findTopNByQueueStatusOrderByQueueIdAsc(QueueStatus.WAIT, pageRequest))
                 .thenReturn(waitList);
 
         // when
