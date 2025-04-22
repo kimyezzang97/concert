@@ -19,8 +19,8 @@ public class PaymentService {
     public PaymentResponse.payment createPayment(Reservation reservation, Member member, Long price) {
         Payment payment = Payment.create(reservation, member, price);
 
-        paymentRepository.save(payment);
+        Payment savendPayment = paymentRepository.save(payment);
 
-        return new PaymentResponse.payment(payment.getPaymentId(), member.getMemberId(), price);
+        return new PaymentResponse.payment(savendPayment.getPaymentId(), member.getMemberId(), price);
     }
 }

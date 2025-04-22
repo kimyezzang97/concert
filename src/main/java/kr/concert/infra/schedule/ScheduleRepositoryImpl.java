@@ -20,4 +20,9 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
         return scheduleJpaRepository.findAllByConcert_ConcertId(concertId);
     }
+
+    @Override
+    public Schedule save(Schedule schedule) {
+        return scheduleJpaRepository.save(schedule);
+    }
 }

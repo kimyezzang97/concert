@@ -7,4 +7,6 @@ import java.util.List;
 public interface ScheduleRepository {
 
     List<Schedule> findAllByConcert_ConcertId(Long concertId);
+
+    Schedule save(Schedule schedule);
 }

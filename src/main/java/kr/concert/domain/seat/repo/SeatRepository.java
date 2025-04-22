@@ -10,4 +10,6 @@ public interface SeatRepository {
     List<Seat> findAllBySchedule_ScheduleId(Long scheduleId);
 
     Optional<Seat> findBySeatId(Long seatId);
+
+    Seat save(Seat seat);
 }
