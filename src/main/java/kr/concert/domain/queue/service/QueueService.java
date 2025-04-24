@@ -6,6 +6,7 @@ import kr.concert.domain.queue.entity.Queue;
 import kr.concert.domain.queue.repo.QueueRepository;
 import kr.concert.interfaces.queue.QueueException;
 import kr.concert.interfaces.queue.QueueResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class QueueService {
 
@@ -55,7 +57,7 @@ public class QueueService {
     // PLAY
     @Transactional(rollbackFor = Exception.class)
     public void activateQueueStatus(){
-        System.out.println("=== start activate queue status ===");
+        log.debug("=== start activate queue status ===");
         int currentPlayCount = queueRepository.countByQueueStatus(QueueStatus.PLAY);
         int batchSize = MAX_PLAY_NUM - currentPlayCount;
 
@@ -72,14 +74,14 @@ public class QueueService {
     // EXPIRE
     @Transactional(rollbackFor = Exception.class)
     public void expireQueueStatus(){
-        System.out.println("=== start expire queue status ===");
+        log.debug("=== start expire queue status ===");
         List<Queue> willExiperList = queueRepository.findAllByQueueStatusAndExpiredAtBefore(QueueStatus.WAIT, LocalDateTime.now());
 
         for (Queue queue : willExiperList) {
             queue.expire();
         }
-        System.out.println(" Expiring queues: " + willExiperList.size());
-        System.out.println("=== end expire queue status ===");
+        log.debug(" Expiring queues: " + willExiperList.size());
+        log.debug("=== end expire queue status ===");
     }
 
 }
