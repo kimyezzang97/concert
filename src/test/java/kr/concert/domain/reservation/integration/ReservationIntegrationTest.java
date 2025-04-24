@@ -92,7 +92,7 @@ public class ReservationIntegrationTest extends TestContainerConfig {
     @Test
     @DisplayName("유효한 토큰으로 좌석 예약 성공")
     void reserveSeatSuccess() {
-        Member member = memberRepository.save(new Member(null, "홍길동", 5000L));
+        Member member = memberRepository.save(Member.create( "홍길동", 5000L));
         Concert concert = concertRepository.save(new Concert(null,"예매 콘서트"));
         Schedule schedule = scheduleRepository.save(new Schedule(null, concert, LocalDateTime.now().plusDays(1)));
         Seat seat = seatRepository.save(new Seat(null, schedule, 1L, 3000L, true));
@@ -111,7 +111,7 @@ public class ReservationIntegrationTest extends TestContainerConfig {
     @Test
     @DisplayName("잘못된 토큰으로 좌석 예약 실패")
     void reserveSeatFailWithInvalidToken() {
-        Member member = memberRepository.save(new Member(null, "고길동", 5000L));
+        Member member = memberRepository.save(Member.create( "고길동", 5000L));
         Concert concert = concertRepository.save(new Concert(null, "토큰 실패 콘서트"));
         Schedule schedule = scheduleRepository.save(new Schedule(null, concert, LocalDateTime.now().plusDays(1)));
         Seat seat = seatRepository.save(new Seat(null, schedule, 1L, 3000L, false));

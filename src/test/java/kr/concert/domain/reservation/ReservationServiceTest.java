@@ -36,7 +36,7 @@ class ReservationServiceTest {
     @DisplayName("정상적으로 예약을 생성합니다.")
     void createReservation_success() {
         // given
-        Member member = new Member(1L, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
         Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now()), 1L, 50000L, true);
 
         Reservation fakeReservation = Reservation.create(member, seat, LocalDateTime.now().plusDays(1));

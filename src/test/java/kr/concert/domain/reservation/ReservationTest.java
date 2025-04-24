@@ -7,19 +7,21 @@ import kr.concert.domain.schedule.entity.Schedule;
 import kr.concert.domain.seat.entity.Seat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@Transactional
 class ReservationTest {
 
     @Test
     @DisplayName("예약 생성에 성공합니다.")
     void createReservation_success() {
         // given
-        Member member = new Member(1L, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
         Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
                 ,1L, 1000L, true);
         LocalDateTime expiredAt = LocalDateTime.now().plusMinutes(10);
@@ -49,7 +51,7 @@ class ReservationTest {
     @Test
     @DisplayName("좌석 정보가 없으면 예외가 발생합니다.")
     void createReservation_nullSeat() {
-        Member member = new Member(1L, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
         LocalDateTime expiredAt = LocalDateTime.now().plusMinutes(10);
 
         assertThatThrownBy(() -> Reservation.create(member, null, expiredAt))
@@ -60,7 +62,7 @@ class ReservationTest {
     @Test
     @DisplayName("만료 시간이 현재 시간보다 이전이면 예외가 발생합니다.")
     void createReservation_expiredTimeInvalid() {
-        Member member = new Member(1L, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
         Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
                 ,1L, 1000L, true);
         LocalDateTime expiredAt = LocalDateTime.now().minusMinutes(5);

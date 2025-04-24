@@ -45,7 +45,7 @@ class MemberServiceTest {
         Long memberId = 1L;
         Long amount = 1000L;
         given(memberRepository.findById(memberId)).willReturn(
-                Optional.of(new Member(1L, "김예찬", amount))
+                Optional.of(new Member(1L, 1L, "김예찬", amount))
         ) ;
 
         // when
@@ -76,7 +76,7 @@ class MemberServiceTest {
     void ifMemberExistCanChargePoint() {
         // given
         given(memberRepository.findById(1L)).willReturn(
-                Optional.of(new Member(1L, "김예찬", 1000L))
+                Optional.of(Member.create( "김예찬", 1000L))
         ) ;
 
         // when

@@ -36,7 +36,7 @@ class PaymentServiceTest {
     @DisplayName("정상적인 정보로 결제를 생성하고 저장하며 응답을 반환한다.")
     void createPayment_success() {
         // given
-        Member member = new Member(1L, "user@test.com", 1000L);
+        Member member = new Member(1L, 1L, "user@test.com", 1000L);
         Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"), LocalDateTime.now().plusDays(1)), 1L, 1000L, true);
         Reservation reservation = Reservation.create(member, seat, LocalDateTime.now().plusDays(1));
         Long price = 30000L;

@@ -16,7 +16,7 @@ class MemberTest {
     @DisplayName("포인트 작앤은 100만을 초과할 수 없습니다.")
     void canNotChargeTooMuchPoint() {
         // given
-        Member member = new Member(1L, "김예찬", 100_000L);
+        Member member = Member.create( "김예찬", 100_000L);
         Long chargePoint = 900_001L;
 
         // when & then
@@ -29,7 +29,7 @@ class MemberTest {
     @DisplayName("포인트 충전은 0 미만으로 할 수 없습니다.")
     void canNotChargeMinusPoint() {
         // given
-        Member member = new Member(1L, "김예찬", 100_000L);
+        Member member = Member.create( "김예찬", 100_000L);
         Long chargePoint = -1L;
 
         // when & then
@@ -42,7 +42,7 @@ class MemberTest {
     @DisplayName("포인트 충전에 성공한다")
     void chargePointSuccess() {
         // given
-        Member member = new Member(1L, "김예찬", 100_000L);
+        Member member = Member.create( "김예찬", 100_000L);
         Long chargePoint = 900_000L;
 
         // when

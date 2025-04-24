@@ -19,7 +19,7 @@ class PaymentTest {
     @Test
     @DisplayName("정상적인 정보로 Payment를 생성할 수 있다.")
     void createPayment_success() {
-        Member member = new Member(1L, "user@test.com", 1000L);
+        Member member = Member.create( "user@test.com", 1000L);
         Reservation reservation =
                 Reservation.create(member, new Seat(1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"),LocalDateTime.now()), 1L, 1000L, true), LocalDateTime.now());
 
@@ -34,7 +34,7 @@ class PaymentTest {
     @Test
     @DisplayName("회원 정보가 null이면 예외가 발생한다.")
     void createPayment_nullMember() {
-        Member member = new Member(1L, "user@test.com", 1000L);
+        Member member = Member.create( "user@test.com", 1000L);
         Reservation reservation =
                 Reservation.create(member, new Seat(1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"),LocalDateTime.now()), 1L, 1000L, true), LocalDateTime.now());
 
@@ -46,7 +46,7 @@ class PaymentTest {
     @Test
     @DisplayName("예약 정보가 null이면 예외가 발생한다.")
     void createPayment_nullReservation() {
-        Member member = new Member(1L, "user@test.com", 1000L);
+        Member member = Member.create( "user@test.com", 1000L);
 
         assertThatThrownBy(() -> Payment.create(null, member, 1000L))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -56,7 +56,7 @@ class PaymentTest {
     @Test
     @DisplayName("결제 금액이 null이거나 0 이하이면 예외가 발생한다.")
     void createPayment_invalidPrice() {
-        Member member = new Member(1L, "user@test.com", 1000L);
+        Member member = Member.create( "user@test.com", 1000L);
         Reservation reservation =
                 Reservation.create(member, new Seat(1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"),LocalDateTime.now().plusDays(1)), 1L, 1000L, true), LocalDateTime.now().plusDays(1));
 
