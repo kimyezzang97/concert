@@ -33,4 +33,9 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     public List<Reservation> getExpireReservations(ReservationStatus status, LocalDateTime now) {
         return reservationJpaRepository.findAllByReservationStatusAndExpiredAtBefore(status, now);
     }
+
+    @Override
+    public List<Reservation> findAll() {
+        return reservationJpaRepository.findAll();
+    }
 }

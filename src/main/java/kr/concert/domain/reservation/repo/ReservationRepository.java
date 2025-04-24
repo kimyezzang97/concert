@@ -14,4 +14,6 @@ public interface ReservationRepository {
     Reservation save(Reservation reservation);
 
     List<Reservation> getExpireReservations(ReservationStatus status, LocalDateTime now);
+
+    List<Reservation> findAll();
 }
