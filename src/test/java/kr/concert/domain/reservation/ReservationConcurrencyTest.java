@@ -84,7 +84,7 @@ public class ReservationConcurrencyTest extends TestContainerConfig {
         Schedule schedule = new Schedule(null, concert, LocalDateTime.now().plusDays(1));
         scheduleRepository.save(schedule);
 
-        Seat seat = new Seat(null, schedule, 1L, 10L, true);
+        Seat seat = new Seat(null,null, schedule, 1L, 10L, true);
         seatRepository.save(seat);
 
         int THREAD_COUNT = 5;
@@ -94,7 +94,7 @@ public class ReservationConcurrencyTest extends TestContainerConfig {
         List<Future<Boolean>> results = new ArrayList<>();
 
         /**
-         * 같은 좌석에 대해 여러 명이 동시에 예약을 시도함. 모두 같은 seatId, memberId, token 사용.
+         * 같은 좌석을 동시에 예약을 시도함.
          */
         for (int i = 0; i < THREAD_COUNT; i++) {
             results.add(executor.submit(() -> {
