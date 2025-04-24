@@ -52,7 +52,7 @@ class SeatServiceTest {
         // given
         Long scheduleId = 1L;
         List<Seat> seats = List.of(
-                new Seat(1L, new Schedule(1L, new Concert(1L, "콜드플레이 콘서트"), LocalDateTime.now()), 1L, 50000L, false)
+                new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "콜드플레이 콘서트"), LocalDateTime.now()), 1L, 50000L, false)
         );
         given(seatRepository.findAllBySchedule_ScheduleId(scheduleId)).willReturn(seats);
 
@@ -70,7 +70,7 @@ class SeatServiceTest {
     @DisplayName("좌석이 존재하고 예약 가능할 경우 예약을 성공한다.")
     void reserveSeat_success() {
         // given
-        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
+        Seat seat = new Seat(1L,1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
         ,1L, 1000L, true);
         when(seatRepository.findBySeatId(1L)).thenReturn(Optional.of(seat));
 
@@ -94,7 +94,7 @@ class SeatServiceTest {
     @Test
     @DisplayName("이미 예약된 좌석이면 예외가 발생한다.")
     void reserveSeat_alreadyReserved() {
-        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
+        Seat seat = new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
                 ,1L, 1000L, false);
         when(seatRepository.findBySeatId(1L)).thenReturn(Optional.of(seat));
 
@@ -105,7 +105,7 @@ class SeatServiceTest {
     @Test
     @DisplayName("좌석 조회 성공한다.")
     void getSeat_success() {
-        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now()), 101L, 50000L, true);
+        Seat seat = new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now()), 101L, 50000L, true);
         when(seatRepository.findBySeatId(1L)).thenReturn(Optional.of(seat));
 
         Seat result = seatService.getSeat(1L);

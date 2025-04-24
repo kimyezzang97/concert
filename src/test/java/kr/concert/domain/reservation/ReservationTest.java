@@ -22,7 +22,7 @@ class ReservationTest {
     void createReservation_success() {
         // given
         Member member = Member.create( "김예찬", 1000L);
-        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
+        Seat seat = new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
                 ,1L, 1000L, true);
         LocalDateTime expiredAt = LocalDateTime.now().plusMinutes(10);
 
@@ -39,7 +39,7 @@ class ReservationTest {
     @Test
     @DisplayName("회원 정보가 없으면 예외가 발생합니다.")
     void createReservation_nullMember() {
-        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
+        Seat seat = new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
                 ,1L, 1000L, true);
         LocalDateTime expiredAt = LocalDateTime.now().plusMinutes(10);
 
@@ -63,7 +63,7 @@ class ReservationTest {
     @DisplayName("만료 시간이 현재 시간보다 이전이면 예외가 발생합니다.")
     void createReservation_expiredTimeInvalid() {
         Member member = Member.create( "김예찬", 1000L);
-        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
+        Seat seat = new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
                 ,1L, 1000L, true);
         LocalDateTime expiredAt = LocalDateTime.now().minusMinutes(5);
 

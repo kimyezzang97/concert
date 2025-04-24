@@ -37,7 +37,7 @@ class PaymentServiceTest {
     void createPayment_success() {
         // given
         Member member = new Member(1L, 1L, "user@test.com", 1000L);
-        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"), LocalDateTime.now().plusDays(1)), 1L, 1000L, true);
+        Seat seat = new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"), LocalDateTime.now().plusDays(1)), 1L, 1000L, true);
         Reservation reservation = Reservation.create(member, seat, LocalDateTime.now().plusDays(1));
         Long price = 30000L;
 

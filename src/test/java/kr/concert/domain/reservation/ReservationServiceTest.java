@@ -37,7 +37,7 @@ class ReservationServiceTest {
     void createReservation_success() {
         // given
         Member member = Member.create( "김예찬", 1000L);
-        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now()), 1L, 50000L, true);
+        Seat seat = new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now()), 1L, 50000L, true);
 
         Reservation fakeReservation = Reservation.create(member, seat, LocalDateTime.now().plusDays(1));
         when(reservationRepository.save(any(Reservation.class))).thenReturn(fakeReservation);

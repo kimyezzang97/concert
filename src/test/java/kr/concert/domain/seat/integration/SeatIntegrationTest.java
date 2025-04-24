@@ -57,7 +57,7 @@ public class SeatIntegrationTest extends TestContainerConfig {
     void seatsExist_returnList() {
         Concert concert = concertRepository.save(new Concert(null, "좌석 존재 콘서트"));
         Schedule schedule = scheduleRepository.save(new Schedule(null, concert, LocalDateTime.now().plusDays(1)));
-        Seat savedSeat = seatRepository.save(new Seat(null, schedule, 1L, 50000L, true));
+        Seat savedSeat = seatRepository.save(new Seat(1L,null, schedule, 1L, 50000L, true));
 
         List<Seat> seats = seatService.getSeatsOfSchedule(schedule.getScheduleId());
 
@@ -70,7 +70,7 @@ public class SeatIntegrationTest extends TestContainerConfig {
     void reserveSeat_success() {
         Concert concert = concertRepository.save(new Concert(null, "예약 성공 콘서트"));
         Schedule schedule = scheduleRepository.save(new Schedule(null, concert, LocalDateTime.now().plusDays(1)));
-        Seat seat = seatRepository.save(new Seat(null, schedule, 1L, 10000L, true));
+        Seat seat = seatRepository.save(new Seat(1L,null, schedule, 1L, 10000L, true));
 
         seatService.reserveSeat(seat.getSeatId());
 
@@ -90,7 +90,7 @@ public class SeatIntegrationTest extends TestContainerConfig {
     void reserveSeat_alreadyReserved() {
         Concert concert = concertRepository.save(new Concert(null, "이미 예약 콘서트"));
         Schedule schedule = scheduleRepository.save(new Schedule(null, concert, LocalDateTime.now().plusDays(1)));
-        Seat seat = seatRepository.save(new Seat(null, schedule, 1L, 20000L, false));
+        Seat seat = seatRepository.save(new Seat(1L,null, schedule, 1L, 20000L, false));
 
         assertThatThrownBy(() -> seatService.reserveSeat(seat.getSeatId()))
                 .isInstanceOf(ReservationException.SeatImpossibleException.class);
@@ -101,7 +101,7 @@ public class SeatIntegrationTest extends TestContainerConfig {
     void getSeat_success() {
         Concert concert = concertRepository.save(new Concert(null, "조회 콘서트"));
         Schedule schedule = scheduleRepository.save(new Schedule(null, concert, LocalDateTime.now().plusDays(1)));
-        Seat seat = seatRepository.save(new Seat(null, schedule, 101L, 15000L, true));
+        Seat seat = seatRepository.save(new Seat(1L,null, schedule, 101L, 15000L, true));
 
         Seat result = seatService.getSeat(seat.getSeatId());
 

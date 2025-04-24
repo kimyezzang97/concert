@@ -17,7 +17,7 @@ class SeatTest {
     void reserveSeatStatus_shouldSetStatusToFalse() {
         // given
         Schedule schedule = new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now()); // 실제 테스트에서는 Stub이나 Builder 사용 가능
-        Seat seat = new Seat(
+        Seat seat = new Seat(1L,
                 1L,
                 schedule,
                 101L,

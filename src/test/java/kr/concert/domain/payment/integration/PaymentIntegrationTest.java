@@ -61,7 +61,7 @@ public class PaymentIntegrationTest extends TestContainerConfig {
         Member member = memberRepository.save(Member.create( "user@test.com", 1000L));
         Concert concert = concertRepository.save(new Concert(null, "그린데이 콘서트"));
         Schedule schedule = scheduleRepository.save(new Schedule(null, concert, LocalDateTime.now().plusDays(1)));
-        Seat seat = seatRepository.save(new Seat(null, schedule, 1L, 1000L, true));
+        Seat seat = seatRepository.save(new Seat(1L, null, schedule, 1L, 1000L, true));
         Reservation reservation = reservationRepository.save(Reservation.create(member, seat, LocalDateTime.now().plusDays(1)));
 
         Long price = 30000L;
