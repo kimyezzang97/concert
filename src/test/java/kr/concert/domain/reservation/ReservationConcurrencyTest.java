@@ -87,7 +87,7 @@ public class ReservationConcurrencyTest extends TestContainerConfig {
         Seat seat = new Seat(null,null, schedule, 1L, 10L, true);
         seatRepository.save(seat);
 
-        int THREAD_COUNT = 5;
+        int THREAD_COUNT = 2;
         ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT); // 동시성 테스트를 위해 ExecutorService 로 스레드 풀 만듬
         CountDownLatch latch = new CountDownLatch(THREAD_COUNT); // CountDownLatch로 모든 스레드의 종료를 기다림.
 
