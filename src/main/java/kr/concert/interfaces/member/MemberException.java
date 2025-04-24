@@ -1,7 +1,5 @@
 package kr.concert.interfaces.member;
 
-import lombok.Getter;
-
 public class MemberException {
 
     public static class MemberNotFoundException extends RuntimeException {
@@ -18,7 +16,19 @@ public class MemberException {
 
     public static class CanNotMinusChargeException extends RuntimeException {
         public CanNotMinusChargeException() {
-            super("Are you kidding me?");
+            super("You can't charge 0 or less!");
+        }
+    }
+
+    public static class InvalidAmountException extends RuntimeException {
+        public InvalidAmountException() {
+            super("You can't payment 0 or less!");
+        }
+    }
+
+    public static class InsufficientPointException extends RuntimeException {
+        public InsufficientPointException() {
+            super("Not Enough Points");
         }
     }
 

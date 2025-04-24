@@ -1,5 +1,9 @@
 package kr.concert.domain.schedule;
 
+import kr.concert.domain.concert.entity.Concert;
+import kr.concert.domain.schedule.entity.Schedule;
+import kr.concert.domain.schedule.repo.ScheduleRepository;
+import kr.concert.domain.schedule.service.ScheduleService;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +18,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +34,7 @@ class ScheduleServiceTest {
     void ifNoSchedulesForConcertCanNotGetList() {
         // given
         Long concertId = 1L;
-        given(scheduleRepository.getSchedulesOfConcert(concertId)).willReturn(Collections.emptyList());
+        given(scheduleRepository.findAllByConcert_ConcertId(concertId)).willReturn(Collections.emptyList());
 
         // when & then
         assertThatThrownBy(() -> scheduleService.getSchedulesOfConcert(concertId))
@@ -45,9 +48,9 @@ class ScheduleServiceTest {
         // given
         Long concertId = 1L;
         List<Schedule> schedules = List.of(
-                new Schedule(1L, concertId, LocalDateTime.of(2025, 5, 1, 19, 0), LocalDateTime.now(), LocalDateTime.now())
+                new Schedule(1L, new Concert(1L, "콜드플레이 콘서트"), LocalDateTime.of(2025, 5, 1, 19, 0))
         );
-        given(scheduleRepository.getSchedulesOfConcert(concertId)).willReturn(schedules);
+        given(scheduleRepository.findAllByConcert_ConcertId(concertId)).willReturn(schedules);
 
         // when
         List<Schedule> result = scheduleService.getSchedulesOfConcert(concertId);
@@ -55,6 +58,6 @@ class ScheduleServiceTest {
         // then
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getScheduleId()).isEqualTo(1L);
-        assertThat(result.get(0).getConcertId()).isEqualTo(concertId);
+        assertThat(result.get(0).getConcert().getConcertId()).isEqualTo(concertId);
     }
 }

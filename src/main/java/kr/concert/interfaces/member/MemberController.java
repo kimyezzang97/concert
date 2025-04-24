@@ -1,15 +1,13 @@
 package kr.concert.interfaces.member;
 
-import kr.concert.domain.member.MemberService;
+import kr.concert.domain.member.service.MemberService;
+import kr.concert.infra.config.swagger.api.SwaggerMemberApi;
 import kr.concert.interfaces.presentation.ApiResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/members")
-public class MemberController {
+public class MemberController implements SwaggerMemberApi {
 
     private final MemberService memberService;
 

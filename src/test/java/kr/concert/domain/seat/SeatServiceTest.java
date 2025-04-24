@@ -1,5 +1,10 @@
 package kr.concert.domain.seat;
 
+import kr.concert.domain.concert.entity.Concert;
+import kr.concert.domain.schedule.entity.Schedule;
+import kr.concert.domain.seat.entity.Seat;
+import kr.concert.domain.seat.repo.SeatRepository;
+import kr.concert.domain.seat.service.SeatService;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,11 +16,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SeatServiceTest {
@@ -31,7 +38,7 @@ class SeatServiceTest {
     void ifNoSeatsForScheduleCanNotGetList() {
         // given
         Long scheduleId = 1L;
-        given(seatRepository.getSeatsOfSchedule(scheduleId)).willReturn(Collections.emptyList());
+        given(seatRepository.findAllBySchedule_ScheduleId(scheduleId)).willReturn(Collections.emptyList());
 
         // when & then
         assertThatThrownBy(() -> seatService.getSeatsOfSchedule(scheduleId))
@@ -45,9 +52,9 @@ class SeatServiceTest {
         // given
         Long scheduleId = 1L;
         List<Seat> seats = List.of(
-                new Seat(1L, scheduleId, 1L, 50000L, false, LocalDateTime.now(), LocalDateTime.now())
+                new Seat(1L, new Schedule(1L, new Concert(1L, "콜드플레이 콘서트"), LocalDateTime.now()), 1L, 50000L, false)
         );
-        given(seatRepository.getSeatsOfSchedule(scheduleId)).willReturn(seats);
+        given(seatRepository.findAllBySchedule_ScheduleId(scheduleId)).willReturn(seats);
 
         // when
         List<Seat> result = seatService.getSeatsOfSchedule(scheduleId);
@@ -55,7 +62,63 @@ class SeatServiceTest {
         // then
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getSeatId()).isEqualTo(1L);
-        assertThat(result.get(0).getScheduleId()).isEqualTo(scheduleId);
+        assertThat(result.get(0).getSchedule().getScheduleId()).isEqualTo(scheduleId);
         assertThat(result.get(0).isSeatStatus()).isEqualTo(false);
+    }
+
+    @Test
+    @DisplayName("좌석이 존재하고 예약 가능할 경우 예약을 성공한다.")
+    void reserveSeat_success() {
+        // given
+        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
+        ,1L, 1000L, true);
+        when(seatRepository.findBySeatId(1L)).thenReturn(Optional.of(seat));
+
+        // when
+        seatService.reserveSeat(1L);
+
+        // then
+        assertThat(seat.isSeatStatus()).isFalse();
+        verify(seatRepository).findBySeatId(1L);
+    }
+
+    @Test
+    @DisplayName("좌석이 존재하지 않으면 예외가 발생한다")
+    void reserveSeat_seatNotFound() {
+        when(seatRepository.findBySeatId(1L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> seatService.reserveSeat(1L))
+                .isInstanceOf(ReservationException.SeatNotExistException.class);
+    }
+
+    @Test
+    @DisplayName("이미 예약된 좌석이면 예외가 발생한다.")
+    void reserveSeat_alreadyReserved() {
+        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now())
+                ,1L, 1000L, false);
+        when(seatRepository.findBySeatId(1L)).thenReturn(Optional.of(seat));
+
+        assertThatThrownBy(() -> seatService.reserveSeat(1L))
+                .isInstanceOf(ReservationException.SeatImpossibleException.class);
+    }
+
+    @Test
+    @DisplayName("좌석 조회 성공한다.")
+    void getSeat_success() {
+        Seat seat = new Seat(1L, new Schedule(1L, new Concert(1L, "카라 콘서트"), LocalDateTime.now()), 101L, 50000L, true);
+        when(seatRepository.findBySeatId(1L)).thenReturn(Optional.of(seat));
+
+        Seat result = seatService.getSeat(1L);
+
+        assertThat(result).isEqualTo(seat);
+    }
+
+    @Test
+    @DisplayName("좌석이 존재하지 않으면 예외가 발생한다.")
+    void getSeat_seatNotFound() {
+        when(seatRepository.findBySeatId(1L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> seatService.getSeat(1L))
+                .isInstanceOf(ReservationException.SeatNotExistException.class);
     }
 }

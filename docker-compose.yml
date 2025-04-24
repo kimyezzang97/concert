@@ -9,6 +9,9 @@ services:
       - MYSQL_USER=application
       - MYSQL_PASSWORD=application
       - MYSQL_DATABASE=hhplus
+      - TZ=Asia/Seoul
+    command:
+      - --default-time-zone=Asia/Seoul
     volumes:
       - ./data/mysql/:/var/lib/mysql
 
