@@ -37,7 +37,7 @@ public class QueueIntegrationTest extends TestContainerConfig {
     @DisplayName("회원이 대기열 토큰을 생성할 수 있다.")
     void memberCanCreateQueueToken() {
         // given
-        Member member = memberRepository.save(new Member(null, "김예찬", 1000L));
+        Member member = memberRepository.save(Member.create( "김예찬", 1000L));
 
         // when
         String token = queueFacade.createToken(member.getMemberId());

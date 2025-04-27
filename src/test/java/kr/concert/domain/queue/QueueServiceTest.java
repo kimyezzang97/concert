@@ -42,7 +42,7 @@ class QueueServiceTest {
     @DisplayName("대기열 토큰 생성에 성공합니다.")
     void createQueueToken() {
         // given
-        Member member = new Member(1L, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
         String expectedToken = UUID.randomUUID().toString();
 
         Queue savedQueue = mock(Queue.class);
@@ -86,7 +86,7 @@ class QueueServiceTest {
     @Test
     void getQueueStatusWithValidToken() {
         // given
-        Member member = new Member(1L, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
         String token = UUID.randomUUID().toString();
 
         Queue queue = new Queue(
@@ -115,7 +115,7 @@ class QueueServiceTest {
         String token = "sample-token";
         Long memberId = 1L;
 
-        Member member = new Member(memberId, "테스트유저", 1000L);
+        Member member = Member.create( "테스트유저", 1000L);
         Queue queue = Queue.create(member, token);
         queue.changeStatusToPlay(LocalDateTime.now().plusMinutes(5)); // 상태 PLAY로 변경
 
@@ -144,9 +144,9 @@ class QueueServiceTest {
     void ifNotPlayTokenThrowsException() {
         // given
         String token = "not-play-token";
-        Long memberId = 3L;
+        Long memberId = 1L;
 
-        Member member = new Member(memberId, "테스트유저2", 2000L);
+        Member member = Member.create( "테스트유저2", 2000L);
         Queue queue = Queue.create(member, token); // 기본 상태는 WAIT
 
         when(queueRepository.findByTokenAndMember_MemberId(token, memberId)).thenReturn(Optional.of(queue));

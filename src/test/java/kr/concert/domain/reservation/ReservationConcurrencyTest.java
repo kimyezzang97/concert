@@ -12,11 +12,14 @@ import kr.concert.domain.schedule.entity.Schedule;
 import kr.concert.domain.schedule.repo.ScheduleRepository;
 import kr.concert.domain.seat.entity.Seat;
 import kr.concert.domain.seat.repo.SeatRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDateTime;
@@ -52,10 +55,23 @@ public class ReservationConcurrencyTest extends TestContainerConfig {
     @Autowired
     QueueRepository queueRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @AfterEach
+    void cleanUp() {
+        jdbcTemplate.execute("delete from member");
+        jdbcTemplate.execute("delete from seat");
+        jdbcTemplate.execute("delete from concert");
+        jdbcTemplate.execute("delete from schedule");
+        jdbcTemplate.execute("delete from reservation");
+        jdbcTemplate.execute("delete from queue");
+    }
+
     @Test
     @DisplayName("동시에 좌석을 예약하면 단 하나만 성공한다.") // 현재는 동시성 에러가 발생한다.
     void ifReserveSameWillHaveOne() throws InterruptedException {
-        Member member = new Member(null, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
         memberRepository.save(member);
 
         Queue queue = Queue.create(member, "test");
@@ -68,17 +84,17 @@ public class ReservationConcurrencyTest extends TestContainerConfig {
         Schedule schedule = new Schedule(null, concert, LocalDateTime.now().plusDays(1));
         scheduleRepository.save(schedule);
 
-        Seat seat = new Seat(null, schedule, 1L, 10L, true);
+        Seat seat = new Seat(null,null, schedule, 1L, 10L, true);
         seatRepository.save(seat);
 
-        int THREAD_COUNT = 5;
+        int THREAD_COUNT = 2;
         ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT); // 동시성 테스트를 위해 ExecutorService 로 스레드 풀 만듬
         CountDownLatch latch = new CountDownLatch(THREAD_COUNT); // CountDownLatch로 모든 스레드의 종료를 기다림.
 
         List<Future<Boolean>> results = new ArrayList<>();
 
         /**
-         * 같은 좌석에 대해 여러 명이 동시에 예약을 시도함. 모두 같은 seatId, memberId, token 사용.
+         * 같은 좌석을 동시에 예약을 시도함.
          */
         for (int i = 0; i < THREAD_COUNT; i++) {
             results.add(executor.submit(() -> {

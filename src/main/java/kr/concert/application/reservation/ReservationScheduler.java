@@ -1,4 +1,4 @@
-package kr.concert.interfaces.scheduler;
+package kr.concert.application.reservation;
 
 import kr.concert.domain.reservation.service.ReservationService;
 import kr.concert.domain.seat.entity.Seat;

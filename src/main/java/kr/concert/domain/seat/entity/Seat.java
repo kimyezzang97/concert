@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 @Entity(name="seat")
 public class Seat extends BaseEntity {
 
+    @Version // ✅ 낙관적 락 적용
+    private Long version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seat_id" ,nullable = false)

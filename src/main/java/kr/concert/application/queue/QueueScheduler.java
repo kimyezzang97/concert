@@ -1,4 +1,4 @@
-package kr.concert.interfaces.scheduler;
+package kr.concert.application.queue;
 
 import kr.concert.domain.queue.service.QueueService;
 import org.springframework.scheduling.annotation.Scheduled;

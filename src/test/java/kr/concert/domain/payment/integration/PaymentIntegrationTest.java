@@ -58,10 +58,10 @@ public class PaymentIntegrationTest extends TestContainerConfig {
     @DisplayName("결제 통합 테스트 - 정상적인 정보로 결제를 생성하고 저장하며 응답을 반환한다.")
     void createPayment_success() {
         // given
-        Member member = memberRepository.save(new Member(null, "user@test.com", 1000L));
+        Member member = memberRepository.save(Member.create( "user@test.com", 1000L));
         Concert concert = concertRepository.save(new Concert(null, "그린데이 콘서트"));
         Schedule schedule = scheduleRepository.save(new Schedule(null, concert, LocalDateTime.now().plusDays(1)));
-        Seat seat = seatRepository.save(new Seat(null, schedule, 1L, 1000L, true));
+        Seat seat = seatRepository.save(new Seat(1L, null, schedule, 1L, 1000L, true));
         Reservation reservation = reservationRepository.save(Reservation.create(member, seat, LocalDateTime.now().plusDays(1)));
 
         Long price = 30000L;

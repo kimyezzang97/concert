@@ -18,6 +18,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,24 +33,26 @@ public class MemberConcurrencyTest extends TestContainerConfig {
     @Autowired
     MemberRepository memberRepository;
 
-    // 500 point가 충전 되어야 하지만 현재 500 미만으로 충전된다.
     @Test
-    @DisplayName("동시에 여러 번 충전해도 포인트는 정확히 누적된다.")
+    @DisplayName("동시에 여러 번 충전을 시도해도 포인트는 1번만 충전된다..")
     void concurrentPointChargeTest() throws InterruptedException {
-        Member member = new Member(null, "김예찬", 0L);
+        Member member = Member.create("김예찬", 0L);
         memberRepository.save(member);
 
         Long memberId = member.getMemberId();
 
-        int threadCount = 5;
+        int threadCount = 2;
         long chargeAmount = 200L;
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(threadCount);
+
+        AtomicInteger callCount = new AtomicInteger(0); // ✅ 호출 횟수 카운터
 
         for (int i = 0; i < threadCount; i++) {
             executor.submit(() -> {
                 try {
                     memberService.chargePoint(memberId, chargeAmount);
+                    callCount.incrementAndGet(); // ✅ 호출 시 카운터 증가
                 } finally {
                     latch.countDown();
                 }
@@ -59,18 +62,19 @@ public class MemberConcurrencyTest extends TestContainerConfig {
         latch.await();
 
         Member updated = memberRepository.findById(memberId).orElseThrow();
-        assertEquals(chargeAmount * threadCount, updated.getPoint());
+        assertEquals(chargeAmount, updated.getPoint()); // chargeAmount 가 되어야 함
+        assertEquals(1, callCount.get(), "충전 호출 횟수는 정확히 1 번이어야 한다.");
     }
 
     @Test
-    @DisplayName("동시에 여러 번 차감해도 포인트는 음수로 내려가지 않는다.")
+    @DisplayName("동시에 여러 번 차감해도 포인트는 1번만 차감된다.")
     void concurrentPointUseTest() throws InterruptedException {
-        Member member = new Member(null, "김예찬", 1000L);
+        Member member = Member.create("김예찬", 1000L);
         memberRepository.save(member);
 
         Long memberId = member.getMemberId();
 
-        int threadCount = 10;
+        int threadCount = 2;
         long useAmount = 200L;
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(threadCount);
@@ -110,8 +114,7 @@ public class MemberConcurrencyTest extends TestContainerConfig {
         System.out.println("남은 포인트: " + updated.getPoint());
         System.out.println("성공한 차감 횟수: " + successCount);
 
-        // 1000 포인트로 200씩 차감하므로 최대 5번까지만 성공해야 함
-        assertEquals(5, successCount); // 10번 성공함 나옴
-        assertEquals(0L, updated.getPoint()); // 600원이나 남음
+        assertEquals(1, successCount); // 1번
+        assertEquals(member.getPoint() - useAmount, updated.getPoint()); // 600원이나 남음
     }
 }

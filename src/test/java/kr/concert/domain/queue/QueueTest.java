@@ -17,7 +17,7 @@ class QueueTest {
     @DisplayName("대기열 토큰 생성을 성공합니다.")
     void createQueueTest() {
         // given
-        Member member = new Member(1L, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
         String token = UUID.randomUUID().toString();
 
         // when
@@ -42,7 +42,7 @@ class QueueTest {
     @Test
     @DisplayName("토큰 정보가 null이므로 대기열 토큰 생성을 실패합니다.")
     void ifMemberTokenNamesNullCanNotCreateQueueToken() {
-        Member member = new Member(1L, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
 
         assertThatThrownBy(() -> Queue.create(member, null))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -52,7 +52,7 @@ class QueueTest {
     @Test
     @DisplayName("토큰 정보가 빈 문자열이므로 대기열 토큰 생성을 실패합니다.")
     void ifMemberTokenNamesEmptyCanNotCreateQueueToken() {
-        Member member = new Member(1L, "김예찬", 1000L);
+        Member member = Member.create( "김예찬", 1000L);
 
         assertThatThrownBy(() -> Queue.create(member, ""))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -63,7 +63,7 @@ class QueueTest {
     @DisplayName("Queue 상태를 PLAY 로 변경합니다.")
     void changeStatusToPlay_updatesQueueStatus() {
         // given
-        Member member = new Member(1L, "테스트회원", 1000L);
+        Member member = Member.create( "테스트회원", 1000L);
         String token = "sample-token";
 
         Queue queue = Queue.create(member, token);

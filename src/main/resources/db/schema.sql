@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS member(
    point bigint not null comment '포인트 잔액',
    created_at datetime not null default CURRENT_TIMESTAMP comment '생성 날짜',
    updated_at datetime not null default CURRENT_TIMESTAMP comment '수정 날짜',
+   version bigint null,
    INDEX idx_member_point (point), -- 포인트 컬럼에 인덱스 추가
    INDEX idx_member_updated_at (updated_at) -- 업데이트 시각 컬럼에 인덱스 추가
 );
@@ -33,6 +34,7 @@ CREATE TABLE IF NOT EXISTS seat(
     seat_status boolean not null comment '좌석 상태 true : 가능, false : 안 됨',
     created_at datetime not null default CURRENT_TIMESTAMP comment '생성 날짜',
     updated_at datetime not null default CURRENT_TIMESTAMP comment '수정 날짜',
+    version bigint null,
     INDEX idx_seat_schedule_id (schedule_id), -- 스케줄별 좌석 조회 시 유용
     INDEX idx_seat_number (seat_number), -- 좌석 번호별 조회 시 유용
     INDEX idx_seat_seat_status (seat_status) -- 좌석 상태별 조회 시 유용

@@ -2,6 +2,8 @@ package kr.concert.domain.member.entity;
 
 import jakarta.persistence.*;
 import kr.concert.domain.BaseEntity;
+import kr.concert.domain.payment.entity.Payment;
+import kr.concert.domain.reservation.entity.Reservation;
 import kr.concert.interfaces.member.MemberException;
 import lombok.*;
 
@@ -13,6 +15,9 @@ import lombok.*;
 public class Member extends BaseEntity {
 
     private static final Long MAX_POINT = 1_000_000L;
+
+    @Version
+    private Long version;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,5 +51,15 @@ public class Member extends BaseEntity {
         }
 
         this.point -= amount;
+    }
+
+    public static Member create(String memberName, Long point) {
+        if (memberName == null) throw new IllegalArgumentException("회원 이름은 필수입니다.");
+        if (point == null || point < 0) throw new IllegalArgumentException("포인트는 0이상이어야 합니다.");
+
+        Member member = new Member();
+        member.memberName = memberName;
+        member.point = point;
+        return member;
     }
 }

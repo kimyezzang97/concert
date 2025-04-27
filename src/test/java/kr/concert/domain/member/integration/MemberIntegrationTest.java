@@ -49,7 +49,7 @@ public class MemberIntegrationTest extends TestContainerConfig {
     @DisplayName("존재하는 회원의 포인트를 조회한다.")
     void ifMemberExistCanGetPoint() {
         // given
-        Member member = memberRepository.save(new Member(null, "김예찬", 1000L));
+        Member member = memberRepository.save(Member.create("김예찬", 1000L));
 
         // when
 
@@ -73,7 +73,7 @@ public class MemberIntegrationTest extends TestContainerConfig {
     @DisplayName("존재하는 회원은 포인트를 충전할 수 있다.")
     void ifMemberExistCanChargePoint() {
         // given
-        Member member = memberRepository.save(new Member(null, "김예찬", 1000L));
+        Member member = memberRepository.save(Member.create( "김예찬", 1000L));
 
         // when
         memberService.chargePoint(member.getMemberId(), 500L);
