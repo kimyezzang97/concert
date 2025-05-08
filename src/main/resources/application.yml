@@ -32,6 +32,10 @@ spring:
       mode: never # always or never
       schema-locations: classpath:/db/schema.sql
       data-locations: classpath:/db/data.sql
+  data:
+    redis:
+      host: localhost
+      port: 6377
 
 springdoc:
   api-docs:
