@@ -2,6 +2,7 @@ package kr.concert.domain.member.service;
 
 import kr.concert.domain.member.entity.Member;
 import kr.concert.domain.member.repo.MemberRepository;
+import kr.concert.infra.config.redis.DistributedLock;
 import kr.concert.interfaces.member.MemberException;
 import kr.concert.interfaces.member.MemberResponse;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class MemberService {
     }
 
     // 회원의 포인트를 충전한다.
-    @Transactional(rollbackFor = Exception.class)
+    @DistributedLock(key = "#memberId")
     public MemberResponse.ChargePoint chargePoint(Long memberId, Long chargePoint) {
         Member resultMember = memberRepository.findById(memberId)
                 .orElseThrow(MemberException.MemberNotFoundException::new);

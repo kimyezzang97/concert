@@ -6,6 +6,7 @@ import kr.concert.domain.payment.service.PaymentService;
 import kr.concert.domain.reservation.ReservationStatus;
 import kr.concert.domain.reservation.entity.Reservation;
 import kr.concert.domain.reservation.service.ReservationService;
+import kr.concert.infra.config.redis.DistributedLock;
 import kr.concert.interfaces.payment.PaymentResponse;
 import kr.concert.interfaces.reservation.ReservationException;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class PaymentFacade {
         this.reservationService = reservationService;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @DistributedLock(key = "#memberId")
     public PaymentResponse.payment createPayment(long reservationId, long memberId, long price) {
         Member member = memberService.getMember(memberId);
         Reservation reservation = reservationService.getReservation(reservationId);

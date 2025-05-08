@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-@Transactional
 @Testcontainers
 @ActiveProfiles("test")
 public class MemberIntegrationTest extends TestContainerConfig {
@@ -35,6 +34,7 @@ public class MemberIntegrationTest extends TestContainerConfig {
 
     @Test
     @DisplayName("존재하지 않는 회원은 포인트를 조회할 수 없다.")
+    @Transactional
     void ifMemberNotExistCanNotGetPoint() {
         // given
         Long nonExistentId = 999L;
@@ -47,6 +47,7 @@ public class MemberIntegrationTest extends TestContainerConfig {
 
     @Test
     @DisplayName("존재하는 회원의 포인트를 조회한다.")
+    @Transactional
     void ifMemberExistCanGetPoint() {
         // given
         Member member = memberRepository.save(Member.create("김예찬", 1000L));

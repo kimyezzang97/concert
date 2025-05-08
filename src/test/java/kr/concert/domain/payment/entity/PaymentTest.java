@@ -21,7 +21,7 @@ class PaymentTest {
     void createPayment_success() {
         Member member = Member.create( "user@test.com", 1000L);
         Reservation reservation =
-                Reservation.create(member, new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"),LocalDateTime.now()), 1L, 1000L, true), LocalDateTime.now());
+                Reservation.create(member, new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"),LocalDateTime.now().plusDays(1)), 1L, 1000L, true), LocalDateTime.now().plusDays(1));
 
 
         Payment payment = Payment.create(reservation, member, 1000L);
@@ -36,7 +36,7 @@ class PaymentTest {
     void createPayment_nullMember() {
         Member member = Member.create( "user@test.com", 1000L);
         Reservation reservation =
-                Reservation.create(member, new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"),LocalDateTime.now()), 1L, 1000L, true), LocalDateTime.now());
+                Reservation.create(member, new Seat(1L, 1L, new Schedule(1L, new Concert(1L, "그린데이 콘서트"),LocalDateTime.now().plusDays(1 )), 1L, 1000L, true), LocalDateTime.now());
 
         assertThatThrownBy(() -> Payment.create(reservation, null, 1000L))
                 .isInstanceOf(IllegalArgumentException.class)
