@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Slf4j
-@Component
+//@Component
 public class ApiLoggingFilter implements Filter {
 
     @Override
@@ -18,7 +18,7 @@ public class ApiLoggingFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String uri = httpRequest.getRequestURI();
 
-        filterChain.doFilter(request, response);
+        //filterChain.doFilter(request, response);
 
         long endTime = System.currentTimeMillis();
         log.info("📦 [{}] API 처리 시간: {} ms", uri, (endTime - startTime));
