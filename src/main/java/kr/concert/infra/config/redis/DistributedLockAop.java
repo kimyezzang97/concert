@@ -48,10 +48,8 @@ public class DistributedLockAop  {
         } finally {
             try {
                 rLock.unlock();   // (4)
-            } catch (IllegalMonitorStateException e) {
-                log.info("Redisson Lock Already UnLock - serviceName : {} key : {}",
-                         method.getName(),  key
-                );
+            } catch (Exception e) {
+                log.warn("Unlock 실패", e);
             }
         }
     }
