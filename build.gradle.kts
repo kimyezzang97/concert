@@ -48,11 +48,17 @@ dependencies {
 	// DB
 	runtimeOnly("com.mysql:mysql-connector-j")
 
+	// redis
+	implementation ("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation ("redis.clients:jedis:5.1.0")
+	implementation ("org.redisson:redisson:3.29.0") // (2025년 5월 기준 최신 안정 버전)
+
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.testcontainers:junit-jupiter")
-	testImplementation("org.testcontainers:mysql")
+	testImplementation("org.testcontainers:mysql") // mysql
+	testImplementation("com.redis.testcontainers:testcontainers-redis:1.6.4") // redis
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

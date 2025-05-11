@@ -15,6 +15,45 @@ services:
     volumes:
       - ./data/mysql/:/var/lib/mysql
 
+  # Redis
+  redis:
+    image: redis:latest
+    container_name: redis_master
+    ports:
+      - "6377:6379" # 외부 6377 → 내부 6379
+
+  redis_2:
+    image: redis:latest
+    container_name: redis_slave
+    ports:
+      - "6378:6379" # 외부 6378 → 내부 6379
+    # redis-server : redis 실행, --replicaof : 복제본,
+    command: ["redis-server", "--replicaof", "redis_master", "6379"]
+
+  controller:
+    image: ngrinder/controller
+    container_name: controller
+    ports:
+      - "80:80"              # 대시보드 웹 UI를 80번 포트에 노출
+      - "16001:16001"        # Agent와의 통신 포트
+      - "12000-12009:12000-12009"  # 에이전트와의 테스트 통신 포트
+    environment:
+      - CONTROLLER_OPTS=-Xms256m -Xmx512m  # Java 메모리 설정
+    networks:
+      - default
+
+  # nGrinder Agent
+  agent:
+    image: ngrinder/agent:latest
+    container_name: agent
+    depends_on:
+      - controller  # Controller가 준비된 후 Agent가 실행
+    networks:
+      - default
+    privileged: true  # 에이전트가 테스트를 수행할 수 있도록 권한 부여
+
 networks:
   default:
-    driver: bridge
+    driver: bridge  # bridge network 안에서는 컨테이너 이름으로 통신할 수 있다.
+
+

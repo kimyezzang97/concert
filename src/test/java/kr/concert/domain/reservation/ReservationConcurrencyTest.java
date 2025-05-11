@@ -13,6 +13,7 @@ import kr.concert.domain.schedule.repo.ScheduleRepository;
 import kr.concert.domain.seat.entity.Seat;
 import kr.concert.domain.seat.repo.SeatRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,16 @@ public class ReservationConcurrencyTest extends TestContainerConfig {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @BeforeEach
+    void beforeCleanUp() {
+        jdbcTemplate.execute("delete from member");
+        jdbcTemplate.execute("delete from seat");
+        jdbcTemplate.execute("delete from concert");
+        jdbcTemplate.execute("delete from schedule");
+        jdbcTemplate.execute("delete from reservation");
+        jdbcTemplate.execute("delete from queue");
+    }
+
     @AfterEach
     void cleanUp() {
         jdbcTemplate.execute("delete from member");
@@ -69,15 +80,8 @@ public class ReservationConcurrencyTest extends TestContainerConfig {
     }
 
     @Test
-    @DisplayName("동시에 좌석을 예약하면 단 하나만 성공한다.") // 현재는 동시성 에러가 발생한다.
+    @DisplayName("동시에 좌석을 예약하면 단 하나만 성공한다.")
     void ifReserveSameWillHaveOne() throws InterruptedException {
-        Member member = Member.create( "김예찬", 1000L);
-        memberRepository.save(member);
-
-        Queue queue = Queue.create(member, "test");
-        queue.changeStatusToPlay(LocalDateTime.now().plusDays(1));
-        queueRepository.save(queue);
-
         Concert concert = new Concert(null, "카라 콘서트");
         concertRepository.save(concert);
 
@@ -86,6 +90,14 @@ public class ReservationConcurrencyTest extends TestContainerConfig {
 
         Seat seat = new Seat(null,null, schedule, 1L, 10L, true);
         seatRepository.save(seat);
+
+        Member member = Member.create( "김예찬", 1000L);
+        memberRepository.save(member);
+        Long memberId = member.getMemberId();
+
+        Queue queue = Queue.create(member, "test");
+        queue.changeStatusToPlay(LocalDateTime.now().plusDays(1));
+        queueRepository.save(queue);
 
         int THREAD_COUNT = 2;
         ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT); // 동시성 테스트를 위해 ExecutorService 로 스레드 풀 만듬
@@ -99,10 +111,10 @@ public class ReservationConcurrencyTest extends TestContainerConfig {
         for (int i = 0; i < THREAD_COUNT; i++) {
             results.add(executor.submit(() -> {
                 try {
-                    reservationFacade.reserve(seat.getSeatId(), 1L, "test");
+                    reservationFacade.reserve(seat.getSeatId(), memberId, "test");
                     return true;
                 } catch (Exception e) {
-                    //e.printStackTrace();
+                    e.printStackTrace();
                     return false;
                 } finally {
                     latch.countDown();
