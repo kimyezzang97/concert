@@ -5,6 +5,7 @@ import kr.concert.domain.concert.repo.ConcertRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ConcertRepositoryImpl implements ConcertRepository {
@@ -23,5 +24,10 @@ public class ConcertRepositoryImpl implements ConcertRepository {
     @Override
     public Concert save(Concert concert) {
         return concertJpaRepository.save(concert);
+    }
+
+    @Override
+    public Optional<Concert> findById(Long id) {
+        return concertJpaRepository.findById(id);
     }
 }
