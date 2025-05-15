@@ -1,8 +1,13 @@
 -- 회원
 INSERT INTO member(member_name, point) VALUES
-('김예찬', 0),
-('김예짱', 1000),
-('이동우', 2000);
+('김예찬', 100000),
+('김예짱', 100000),
+('이동우', 200000),
+('강래구', 100000),
+('박시창', 100000),
+('유채현', 100000),
+('김학빈', 100000),
+('황지수', 100000);
 
 INSERT INTO concert(concert_name) VALUES
 ('콜드플레이 콘서트'),
@@ -44,7 +49,7 @@ FROM (
          UNION ALL SELECT 36 UNION ALL SELECT 37 UNION ALL SELECT 38 UNION ALL SELECT 39 UNION ALL SELECT 40
          UNION ALL SELECT 41 UNION ALL SELECT 42 UNION ALL SELECT 43 UNION ALL SELECT 44 UNION ALL SELECT 45
          UNION ALL SELECT 46 UNION ALL SELECT 47 UNION ALL SELECT 48 UNION ALL SELECT 49 UNION ALL SELECT 50
-     ) AS numbers;
+) AS numbers;
 
 
 -- member 더미 데이터 버전 0으로 설정
