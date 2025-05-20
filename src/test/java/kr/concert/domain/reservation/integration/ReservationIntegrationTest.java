@@ -9,6 +9,7 @@ import kr.concert.domain.member.repo.MemberRepository;
 import kr.concert.domain.queue.entity.Queue;
 import kr.concert.domain.queue.repo.QueueRepository;
 import kr.concert.domain.reservation.ReservationStatus;
+import kr.concert.domain.reservation.event.ReservationEventPublisher;
 import kr.concert.domain.schedule.entity.Schedule;
 import kr.concert.domain.schedule.repo.ScheduleRepository;
 import kr.concert.domain.seat.entity.Seat;
@@ -16,8 +17,14 @@ import kr.concert.domain.seat.repo.SeatRepository;
 import kr.concert.interfaces.reservation.ReservationResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -28,15 +35,31 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 
 @SpringBootTest
 @Transactional
 @Testcontainers
+@Import(ReservationIntegrationTest.MockConfig.class)
 @ActiveProfiles("test")
 public class ReservationIntegrationTest extends TestContainerConfig {
 
+    @TestConfiguration
+    static class MockConfig {
+        @Bean
+        public ReservationEventPublisher reservationEventPublisher() {
+            return mock(ReservationEventPublisher.class);
+        }
+    }
+
     @Autowired
     private ReservationFacade reservationFacade;
+
+    @Autowired
+    private ReservationEventPublisher reservationEventPublisher;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -92,7 +115,7 @@ public class ReservationIntegrationTest extends TestContainerConfig {
     @Test
     @DisplayName("유효한 토큰으로 좌석 예약 성공")
     void reserveSeatSuccess() {
-        Member member = memberRepository.save(Member.create( "홍길동", 5000L));
+        Member member = memberRepository.save(Member.create( "김예찬", 5000L));
         Concert concert = concertRepository.save(new Concert(null,"예매 콘서트"));
         Schedule schedule = scheduleRepository.save(new Schedule(null, concert, LocalDateTime.now().plusDays(1)));
         Seat seat = seatRepository.save(new Seat(1L,null, schedule, 1L, 3000L, true));
@@ -106,6 +129,13 @@ public class ReservationIntegrationTest extends TestContainerConfig {
 
         assertThat(reserve).isNotNull();
         assertThat(reserve.reservationStatus()).isEqualTo(ReservationStatus.TEMP);
+
+        // 이벤트 발행 검증
+        verify(reservationEventPublisher).publish( // <-- 여기에러
+                argThat(event ->
+                        event.getMemberName().equals("김예찬") &&
+                                event.getSeatNumber().equals(seat.getSeatNumber()))
+        );
     }
 
     @Test
