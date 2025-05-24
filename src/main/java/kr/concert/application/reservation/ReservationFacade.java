@@ -5,11 +5,14 @@ import kr.concert.domain.member.entity.Member;
 import kr.concert.domain.member.service.MemberService;
 import kr.concert.domain.queue.service.QueueService;
 import kr.concert.domain.reservation.entity.Reservation;
+import kr.concert.domain.reservation.event.ReservationEvent;
+import kr.concert.domain.reservation.event.ReservationEventPublisher;
 import kr.concert.domain.reservation.service.ReservationService;
 import kr.concert.domain.schedule.service.ScheduleService;
 import kr.concert.domain.seat.entity.Seat;
 import kr.concert.domain.seat.service.SeatService;
 import kr.concert.interfaces.reservation.ReservationResponse;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,15 +28,18 @@ public class ReservationFacade {
     private final QueueService queueService;
     private final ReservationService reservationService;
     private final MemberService memberService;
+    // event
+    private final ReservationEventPublisher reservationEventPublisher;
 
     public ReservationFacade(ConcertService concertService, ScheduleService scheduleService, SeatService seatService, QueueService queueService,
-                             ReservationService reservationService, MemberService memberService) {
+                             ReservationService reservationService, MemberService memberService, ReservationEventPublisher reservationEventPublisher) {
         this.concertService = concertService;
         this.scheduleService = scheduleService;
         this.seatService = seatService;
         this.queueService = queueService;
         this.reservationService = reservationService;
         this.memberService = memberService;
+        this.reservationEventPublisher = reservationEventPublisher;
     }
 
     // 콘서트 목록 조회
@@ -85,6 +91,9 @@ public class ReservationFacade {
         Seat seat = seatService.getSeat(seatId);
 
         Reservation reservation = reservationService.createReservation(member, seat);
+
+        // event 전달
+        reservationEventPublisher.publish(new ReservationEvent(member.getMemberName(), seat.getSeatNumber()));
 
         return new ReservationResponse.Reserve(reservation.getReservationId(), reservation.getReservationStatus(), reservation.getExpiredAt());
     }
