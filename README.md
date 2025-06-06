@@ -54,6 +54,36 @@ ___
 ```bash
 docker-compose up -d
 ```
-
-테이블 생성 및 더미데이터 insert를 위해 application.yml의 
+```bash
+docker compose stop concert-service
+```
+테이블 생성 및 더미데이터 insert를 할 경우 application.yml의 
 spring - sql - init - mode 를 always로 바꿔주세요
+
+---
+### 테스트 도커 컨테이너 실행
+1. Gradle - clean
+2. Gradle - bootJar
+3. 프로젝트 최상단 명령어 실행 및 도커 컴포즈 실행
+4. test 컨테이너 cpu 및 메모리 제한 (aws 프리티어 절반 성능)
+5. test 컨테이너 제한된 CPU 확인 500000000 : 0.5 CPU
+6. test 컨테이너 제한된 mem 확인
+```bash
+docker build --no cache -t concert-service:latest .
+```
+```bash
+docker-compose up -d
+```
+```bash
+docker-compose -f docker-compose.k6.yml -p test up -d
+```
+```bash
+docker update --memory=1024m --memory-swap=1024m --cpus=1 concert-service
+```
+```bash
+docker inspect concert-service --format '{{.HostConfig.NanoCpus}}'
+```
+```bash
+docker stats concert-service
+```
+

@@ -1,5 +1,19 @@
 version: '3'
 services:
+  concert-service:
+    image: concert-service:latest  # 로컬에서 만든 이미지
+    container_name: concert-service
+    ports:
+      - "8081:8080"  # 필요 시 포트 조정
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - SPRING_PROFILES_ACTIVE=test-local
+      - TZ=Asia/Seoul
+    networks:
+      - default
+      - shared-net
   mysql:
     image: mysql:8.0
     ports:
@@ -55,5 +69,7 @@ services:
 networks:
   default:
     driver: bridge  # bridge network 안에서는 컨테이너 이름으로 통신할 수 있다.
+  shared-net:
+    external: true
 
 

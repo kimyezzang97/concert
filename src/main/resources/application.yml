@@ -45,4 +45,28 @@ springdoc:
     disable-swagger-default-url: true
     display-request-duration: true
 
+---
+spring.config.activate.on-profile: test-local
 
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/hhplus?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: application
+    password: application
+  sql:
+    init:
+      mode: never # always or never
+      schema-locations: classpath:/db/schema.sql
+      data-locations: classpath:/db/data.sql
+  data:
+    redis:
+      host: redis
+      port: 6379
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html # 리디렉션만 됨 (실제는 /swagger-ui/index.html)
+    disable-swagger-default-url: true
+    display-request-duration: true
